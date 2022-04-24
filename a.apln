@@ -1,6 +1,6 @@
 :Namespace yaml
 ⎕IO←0
-t←⊃⎕NGET 't/1.yaml'
+I←⊃II←⎕NGET 't/1.yaml'
 
 X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
 
@@ -11,7 +11,21 @@ b_char      ←⎕UCS X'0A' '0D'
 nb_char     ←c_printable ~ b_char,⎕UCS X'FEFF'
 s_white     ←⎕UCS X'20' '09'
 
+⍝ Character detection  XXX: How should we raise/generate errors?
+(X'FFEF')≠⊃I     ⍝ ERROR if reading in wrong byte order
+∧/I∊c_printable  ⍝ ERROR if invalid characters in input
+
+
 ⍝ Linebreak normalization
+
+⍝ ERROR if unsupported separator
+⍝ ⎕NGET finds the first "line separator" and normalizes all occurances to LF.
+⍝ YAML 1.2 specifies the only serialized line breaks to be CRLF, CR, and LF;
+⍝ however, ⎕NGET line separators include  NEL, VT, FF, LS, and PS.
+⍱/(2⌷II)≡¨X'85' '0B' '0C' '2028' '2029'
+I←{(~⌽⍵)/((⎕UCS 10)@(⍳⍵))I}(⎕UCS 13 10)⍷I
+I←(⎕UCS 10)@(=∘(⎕UCS 13))I
+
 ⍝ Flow-style nodes
 ⍝ Block scalar nodes
 :EndNamespace
