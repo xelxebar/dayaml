@@ -2,6 +2,7 @@
 ⎕IO←0
 I←⊃II←⎕NGET 't/1.yaml'
 
+PP←(⎕UCS 13)@((⎕UCS 10)∘=)
 X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
 
 c_printable ←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/∘X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
@@ -23,7 +24,7 @@ s_white     ←⎕UCS X'20' '09'
 ⍝ YAML 1.2 specifies the only serialized line breaks to be CRLF, CR, and LF;
 ⍝ however, ⎕NGET line separators include  NEL, VT, FF, LS, and PS.
 ⍱/(2⌷II)≡¨X'85' '0B' '0C' '2028' '2029'
-I←{(~⌽⍵)/((⎕UCS 10)@(⍳⍵))I}(⎕UCS 13 10)⍷I
+I←I/⍨ ~(⎕UCS 13 10)⍷I
 I←(⎕UCS 10)@(=∘(⎕UCS 13))I
 
 ⍝ Flow-style nodes
