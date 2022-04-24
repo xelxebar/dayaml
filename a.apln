@@ -1,8 +1,17 @@
 :Namespace yaml
 ⎕IO←0
 t←⊃⎕NGET 't/1.yaml'
-X←16∘⊥∘('0123456789ABCDEF'∘⍳)
-∆Y←⎕UCS⊃,/(⊃+⍳⍤(1+-⍨/))¨ ↓⊢⌺(⍪2 2)X¨'09' '09','0A' '0A','0D' '0D','85' '85','20' '7E','A0' 'D7FF','E000' 'FFFD','010000' '10FFFF'
-∆J←⎕UCS⊃,/(⊃+⍳⍤(1+-⍨/))¨ ↓⊢⌺(⍪2 2)X¨'09' '09','20' '10FFFF'
-∆I←'-?:,[]{}#&*!|>''"%@`',⎕UCS X¨'0A' '0D' '20' '09'
+
+X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
+
+c_printable ←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/∘X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
+nb_json     ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X('20' '10FFFF')
+c_indicator ←'-?:,[]{}#&*!|>''"%@`'
+b_char      ←⎕UCS X'0A' '0D'
+nb_char     ←c_printable ~ b_char,⎕UCS X'FEFF'
+s_white     ←⎕UCS X'20' '09'
+
+⍝ Linebreak normalization
+⍝ Flow-style nodes
+⍝ Block scalar nodes
 :EndNamespace
