@@ -5,20 +5,26 @@ I←⊃II←⎕NGET 't/1.yaml'
 PP←(⎕UCS 13)@((⎕UCS 10)∘=)
 X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
 
-c_printable ←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/∘X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
-nb_json     ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X('20' '10FFFF')
-c_indicator ←'-?:,[]{}#&*!|>''"%@`'
-b_char      ←⎕UCS X'0A' '0D'
-nb_char     ←c_printable ~ b_char,⎕UCS X'FEFF'
-s_white     ←⎕UCS X'20' '09'
+c_printable      ←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/∘X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
+nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X('20' '10FFFF')
+c_indicator      ←'-?:,[]{}#&*!|>''"%@`'
+c_flow_indicator ←',[]{}'
+b_char           ←⎕UCS X'0A' '0D'
+nb_char          ←c_printable ~ b_char,⎕UCS X'FEFF'
+s_white          ←⎕UCS X'20' '09'
+ns_char          ←nb_char~s_white
+ns_dec_digit     ←'0123456789'
+ns_hex_digit     ←ns_dec_digit,'ABCDEF','abcdef'
+ns_ascii_letter  ←'ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy'
+ns_word_char     ←ns_dec_digit,ns_ascii_letter,'-'
+ns_uri_char      ←'%',ns_word_char,'#;/?:@&=+$,_.!~*''()[]'
+ns_tag_char      ←ns_uri_char~'!',c_flow_indicator
 
-⍝ Character detection  XXX: How should we raise/generate errors?
+⍝ Character detection
 (X'FFEF')≠⊃I     ⍝ ERROR if reading in wrong byte order
 ∧/I∊c_printable  ⍝ ERROR if invalid characters in input
 
-
 ⍝ Linebreak normalization
-
 ⍝ ERROR if unsupported separator
 ⍝ ⎕NGET finds the first "line separator" and normalizes all occurances to LF.
 ⍝ YAML 1.2 specifies the only serialized line breaks to be CRLF, CR, and LF;
@@ -27,6 +33,18 @@ s_white     ←⎕UCS X'20' '09'
 I←I/⍨ ~(⎕UCS 13 10)⍷I
 I←(⎕UCS 10)@(=∘(⎕UCS 13))I
 
+⍝ PHASES
+⍝ %-escape error-detection (not-expansion)
 ⍝ Flow-style nodes
 ⍝ Block scalar nodes
+⍝ Single-quote flow scalars
+⍝ Double-quote flow scalars
+⍝ Backslash-escape characters
+⍝ Block-style scalars
 :EndNamespace
+
+⍝ NOTES
+⍝ Error generation methods?
+⍝ Syntax def of FLOW-*, and BLOCK-* contexts?
+⍝ Problems due to alias nodes? (Recursive nodes possible)
+⍝ Production rules don't specify chomping/normalization/etc.
