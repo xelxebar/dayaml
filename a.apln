@@ -24,30 +24,28 @@ ns_uri_char      ←'%',ns_word_char,'#;/?:@&=+$,_.!~*''()[]'
 ns_tag_char      ←ns_uri_char~'!',c_flow_indicator
 
 ⍝ Character detection
-(X'FFEF')≠⊃I     ⍝ ERROR if reading in wrong byte order
-∧/I∊c_printable  ⍝ ERROR if invalid characters in input
+parse←{
+ ~∧/m←IN∊c_printable:11⎕SIGNAL⍨'Invalid character at position(s) ',⍕⍸m
+ ⍝ Linebreak normalization
+ ⍝ ERROR if unsupported separator
+ ⍝ ⎕NGET finds the first "line separator" and normalizes all occurances to LF.
+ ⍝ YAML 1.2 specifies the only serialized line breaks to be CRLF, CR, and LF;
+ ⍝ however, ⎕NGET line separators include  NEL, VT, FF, LS, and PS.
+ ⍱/(2⌷II)≡¨X'85' '0B' '0C' '2028' '2029'
+ IN←LF@(=∘CR)IN/⍨ ~CR LF⍷IN
 
-⍝ Linebreak normalization
-⍝ ERROR if unsupported separator
-⍝ ⎕NGET finds the first "line separator" and normalizes all occurances to LF.
-⍝ YAML 1.2 specifies the only serialized line breaks to be CRLF, CR, and LF;
-⍝ however, ⎕NGET line separators include  NEL, VT, FF, LS, and PS.
-⍱/(2⌷II)≡¨X'85' '0B' '0C' '2028' '2029'
-I←I/⍨ ~(⎕UCS 13 10)⍷I
-I←(⎕UCS 10)@(=∘(⎕UCS 13))I
-
-⍝ PHASES
-⍝ %-escape error-detection (not-expansion)
-⍝ Flow-style nodes
-⍝ Block scalar nodes
-⍝ Single-quote flow scalars
-⍝ Double-quote flow scalars
-⍝ Backslash-escape characters
-⍝ Block-style scalars
+ ⍝ PHASES
+ ⍝ %-escape error-detection (not-expansion)
+ ⍝ Flow-style nodes
+ ⍝ Block scalar nodes
+ ⍝ Single-quote flow scalars
+ ⍝ Double-quote flow scalars
+ ⍝ Backslash-escape characters
+ ⍝ Block-style scalars
+}
 :EndNamespace
 
 ⍝ NOTES
-⍝ Error generation methods?
 ⍝ Syntax def of FLOW-*, and BLOCK-* contexts?
 ⍝ Problems due to alias nodes? (Recursive nodes possible)
 ⍝ Production rules don't specify chomping/normalization/etc.
