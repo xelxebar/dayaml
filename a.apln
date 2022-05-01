@@ -1,10 +1,13 @@
 :Namespace yaml
 ⎕IO←0
-I←⊃II←⎕NGET 't/1.yaml'
+IN←⊃II←⎕NGET 't/1.yaml'
 
 PP←(⎕UCS 13)@((⎕UCS 10)∘=)
 X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
+I←{(⊂⍵)⌷⍺}
+assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍺ ⎕SIGNAL 8 ⋄ shy←0}
 
+CR LF            ←⎕UCS 13 10
 c_printable      ←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/∘X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
 nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X('20' '10FFFF')
 c_indicator      ←'-?:,[]{}#&*!|>''"%@`'
