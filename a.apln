@@ -2,7 +2,6 @@
 ⎕IO←0
 IN←⊃II←⎕NGET 't/1.yaml'
 
-PP←(⎕UCS 13)@((⎕UCS 10)∘=)
 X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
 I←{(⊂⍵)⌷⍺}
 assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍺ ⎕SIGNAL 8 ⋄ shy←0}
