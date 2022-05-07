@@ -1,7 +1,7 @@
 P←{IN←⍵
- I←{(⊂⍵)⌷⍺} ⋄ U←{0=⎕NC'⍺':⍵⍵⍣¯1⍤(⍺⍺⍥⍵⍵) ⍵ ⋄ ⍺ (⍵⍵⍣¯1⍤(⍺⍺⍥⍵⍵)) ⍵}
- assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍺ ⎕SIGNAL 8 ⋄ shy←0}
- X←16∘⊥∘('0123456789ABCDEF'∘⍳)¨
+ I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵}
+ assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
+ X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
 
  1<≢⍴IN:'PARSER EXPECTS VECTOR INPUT'⎕SIGNAL 11
  1<|≡IN:'PARSER EXPECTS SIMPLE VECTOR INPUT'⎕SIGNAL 11
@@ -16,10 +16,9 @@ P←{IN←⍵
  nb_char          ←c_printable ~ b_char,⎕UCS X'FEFF'
  s_white          ←⎕UCS X'20' '09'
  ns_char          ←nb_char~s_white
- ns_dec_digit     ←'0123456789'
- ns_hex_digit     ←ns_dec_digit,'ABCDEF','abcdef'
- ns_ascii_letter  ←'ABCDEFGHIJKLMNOPQRSTUVWXYabcdefghijklmnopqrstuvwxy'
- ns_word_char     ←ns_dec_digit,ns_ascii_letter,'-'
+ ns_hex_digit     ←⎕D,'ABCDEF','abcdef'
+ ns_ascii_letter  ←⎕A,⎕UCS 32+⎕UCS⎕A
+ ns_word_char     ←⎕D,ns_ascii_letter,'-'
  ns_uri_char      ←'%',ns_word_char,'#;/?:@&=+$,_.!~*''()[]'
  ns_tag_char      ←ns_uri_char~'!',c_flow_indicator
 
@@ -40,8 +39,6 @@ P←{IN←⍵
  ⍝ NOTES
  ⍝ Syntax def of FLOW-*, and BLOCK-* contexts?
 
- ⍝ QUESTION
- ⍝ Why does U←{⍵⍵⍣¯1⍤(⍺⍺⍥⍵⍵)} throw a syntax error?
- ⍝ Why do we need parens around train in dyadic U?
- ⍝ Why does co-dfns assert wrap (⍺ ⎕SIGNAL 8) in a ⍎ call?
+ ⍝ QUESTIONS
+ ⍝ X∘←Y just shorthand for ⎕this.X←Y?
 }
