@@ -17,7 +17,8 @@ P←{IN←⍵
   dmx←('EN' EN)('Category' 'Parser')('Vendor' 'dayaml')('Message'(EM,LF,msg))
   ⎕SIGNAL⊂dmx}
 
- c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/∘X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
+ c_printable←X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
+ c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
  nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X'20' '10FFFF'
