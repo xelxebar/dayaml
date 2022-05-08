@@ -21,36 +21,36 @@ P←{IN←⍵
  c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
- nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X'20' '10FFFF'
- c_indicator      ←'-?:,[]{}#&*!|>''"%@`'
- c_flow_indicator ←',[]{}'
- b_char           ←⎕UCS X'0A' '0D'
- nb_char          ←c_printable ~ b_char,⎕UCS X⊂'FEFF'
- s_white          ←⎕UCS X'20' '09'
- ns_char          ←nb_char~s_white
- ns_hex_digit     ←⎕D,'ABCDEF','abcdef'
- ns_ascii_letter  ←⎕A,⎕UCS 32+⎕UCS⎕A
- ns_word_char     ←⎕D,ns_ascii_letter,'-'
- ns_uri_char      ←'%',ns_word_char,'#;/?:@&=+$,_.!~*''()[]'
- ns_tag_char      ←ns_uri_char~'!',c_flow_indicator
+ IN}
 
- ⍝ PHASES
- ⍝ %-escape error-detection (not-expansion)
- ⍝ Flow-style nodes
- ⍝ Block scalar nodes
- ⍝ Single-quote flow scalars
- ⍝ Double-quote flow scalars
- ⍝ Backslash-escape characters
- ⍝ Block-style scalars
+⍝ PHASES
+⍝ %-escape error-detection (not-expansion)
+⍝ Flow-style nodes
+⍝ Block scalar nodes
+⍝ Single-quote flow scalars
+⍝ Double-quote flow scalars
+⍝ Backslash-escape characters
+⍝ Block-style scalars
 
- IN
+⍝ NOTES
+⍝ Syntax def of FLOW-*, and BLOCK-* contexts?
+⍝ Oulipo: Avoid dfns nesting; Var names prioritize macrosopic readability.
+⍝ Link still buggy
 
- ⍝ NOTES
- ⍝ Syntax def of FLOW-*, and BLOCK-* contexts?
- ⍝ Oulipo: Avoid dfns nesting; Var names prioritize macrosopic readability.
- ⍝ Link still buggy
+⍝ QUESTIONS
+⍝ X∘←Y just shorthand for ⎕this.X←Y? Why does Scholes regret this?
+⍝ Performance monitoring?
 
- ⍝ QUESTIONS
- ⍝ X∘←Y just shorthand for ⎕this.X←Y? Why does Scholes regret this?
- ⍝ Performance monitoring?
-}
+⍝ CHARACTER CLASSES
+⍝ nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X'20' '10FFFF'
+⍝ c_indicator      ←'-?:,[]{}#&*!|>''"%@`'
+⍝ c_flow_indicator ←',[]{}'
+⍝ b_char           ←⎕UCS X'0A' '0D'
+⍝ nb_char          ←c_printable ~ b_char,⎕UCS X⊂'FEFF'
+⍝ s_white          ←⎕UCS X'20' '09'
+⍝ ns_char          ←nb_char~s_white
+⍝ ns_hex_digit     ←⎕D,'ABCDEF','abcdef'
+⍝ ns_ascii_letter  ←⎕A,⎕UCS 32+⎕UCS⎕A
+⍝ ns_word_char     ←⎕D,ns_ascii_letter,'-'
+⍝ ns_uri_char      ←'%',ns_word_char,'#;/?:@&=+$,_.!~*''()[]'
+⍝ ns_tag_char      ←ns_uri_char~'!',c_flow_indicator
