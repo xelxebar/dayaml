@@ -24,7 +24,7 @@ P←{IN←⍵
  c_indicator      ←'-?:,[]{}#&*!|>''"%@`'
  c_flow_indicator ←',[]{}'
  b_char           ←⎕UCS X'0A' '0D'
- nb_char          ←c_printable ~ b_char,⎕UCS X'FEFF'
+ nb_char          ←c_printable ~ b_char,⎕UCS X⊂'FEFF'
  s_white          ←⎕UCS X'20' '09'
  ns_char          ←nb_char~s_white
  ns_hex_digit     ←⎕D,'ABCDEF','abcdef'
