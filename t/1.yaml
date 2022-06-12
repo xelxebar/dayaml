@@ -39,3 +39,5 @@ inception: |
 %YAML 1.2
 %TAG !x! tag:wilsonb.com/lilliputian-society,2022-04-20:
 ---
+
+---I am a plain string
