@@ -1,5 +1,5 @@
 P←{IN←⍵
- I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ V←{⍺←⊢ ⋄ ⍺ ⍵⍵⍤⍺⍺⍥⍵⍵⍣¯1⊢⍵}
+ I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ R←{⍺⍺⌿∘⌽¨U⌽,⍀⊂¨⍵}
  assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
  X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
 
@@ -10,10 +10,10 @@ P←{IN←⍵
  CR LF←⎕UCS 13 10
  IN←LF,⍨LF@(=∘CR)IN/⍨ ~CR LF⍷IN
 
- linestarts←0,(⍸¯1=+⍀⍣¯1⊢IN∊LF),≢IN
- SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪linestarts⍸⍵
+ ls←0,(⍸¯1=+⍀⍣¯1⊢IN∊LF),≢IN ⋄ le←(IN∊LF),≢IN ⋄ INN←(LF∘≠⊆⊢)IN
+ SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪ls⍸⍵
   nos⍀⍨←1 0⍴⍨2×≢nos←'[',(⍕⍪lines),⍤1⊢'] '
-  msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨linestarts[lines+1]-beg←linestarts[lines]
+  msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨ls[lines+1]-beg←ls[lines]
   msg←¯1↓∊LF,⍨nos,⍪,msg,' ‾'∘I¨∊∘⍵¨idx
   dmx←('EN' EN)('Category' 'Parser')('Vendor' 'dayaml')('Message'(EM,LF,msg))
   ⎕SIGNAL⊂dmx}
@@ -22,11 +22,8 @@ P←{IN←⍵
  c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
- INN↓¨⍨←d←⍳∘1¨' '≠INN←(LF∘≠⊆⊢)IN
- _←(1↓k){p[⍺]←⍵[⍵⍸⍺]}¨I∘⍋⍨¨,⍀¯1↓k←(⍋∪d)I⍨⊢∘⊂⌸d⊣p←⍳≢d
- ⍉(⍳≢d),d,⍪p
-
- dirends docends←⍸¨((3⌽IN∊' 'LF)∧¯1⌽IN∊LF)∘∧¨('---'⍷IN)('...'⍷IN)
+ INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢¨⊃¨{∪⍺,⍨⍵↑⍨1+(⍬,⍵)⍸⍺}R⊢d
+ ⍝ dirends docends←⍸¨((3⌽IN∊' 'LF)∧¯1⌽IN∊LF)∘∧¨('---'⍷IN)('...'⍷IN)
 
  IN}
 
@@ -44,6 +41,7 @@ P←{IN←⍵
 
 ⍝ NOTES
 ⍝ Adam's dyadic extension of ⌸
+⍝_←(1↓k){p[⍺]←⍵[⍵⍸⍺]}¨I∘⍋⍨¨,⍀¯1↓k←(⍋∪d)I⍨⊢∘⊂⌸d⊣p←⍳≢d
 
 ⍝ CHARACTER CLASSES
 ⍝ nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X'20' '10FFFF'
