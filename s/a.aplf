@@ -1,5 +1,5 @@
 P←{IN←⍵
- I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵}
+ I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ V←{⍺←⊢ ⋄ ⍺ ⍵⍵⍤⍺⍺⍥⍵⍵⍣¯1⊢⍵}
  assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
  X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
 
@@ -8,7 +8,8 @@ P←{IN←⍵
  0≠10|⎕DR IN:'PARSER EXPECTS CHARACTER VECTOR'⎕SIGNAL 11
 
  CR LF←⎕UCS 13 10
- IN,←LF ⋄ IN←LF@(=∘CR)IN/⍨ ~CR LF⍷IN
+ IN←LF,⍨LF@(=∘CR)IN/⍨ ~CR LF⍷IN
+
  linestarts←0,(⍸¯1=+⍀⍣¯1⊢IN∊LF),≢IN
  SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪linestarts⍸⍵
   nos⍀⍨←1 0⍴⍨2×≢nos←'[',(⍕⍪lines),⍤1⊢'] '
@@ -21,10 +22,19 @@ P←{IN←⍵
  c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
+ INN↓¨⍨←d←⍳∘1¨' '≠INN←(LF∘≠⊆⊢)IN
+ _←(1↓k){p[⍺]←⍵[⍵⍸⍺]}¨I∘⍋⍨¨,⍀¯1↓k←(⍋∪d)I⍨⊢∘⊂⌸d⊣p←⍳≢d
+ ⍉(⍳≢d),d,⍪p
+
+ dirends docends←⍸¨((3⌽IN∊' 'LF)∧¯1⌽IN∊LF)∘∧¨('---'⍷IN)('...'⍷IN)
+
  IN}
 
 ⍝ PHASES
+⍝ Directives & Documents
+⍝ Block-style nodes
 ⍝ %-escape error-detection (not-expansion)
+⍝ Plain scalars
 ⍝ Flow-style nodes
 ⍝ Block scalar nodes
 ⍝ Single-quote flow scalars
@@ -33,13 +43,7 @@ P←{IN←⍵
 ⍝ Block-style scalars
 
 ⍝ NOTES
-⍝ Syntax def of FLOW-*, and BLOCK-* contexts?
-⍝ Oulipo: Avoid dfns nesting; Var names prioritize macrosopic readability.
-⍝ Link still buggy
-
-⍝ QUESTIONS
-⍝ X∘←Y just shorthand for ⎕this.X←Y? Why does Scholes regret this?
-⍝ Performance monitoring?
+⍝ Adam's dyadic extension of ⌸
 
 ⍝ CHARACTER CLASSES
 ⍝ nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X'20' '10FFFF'
