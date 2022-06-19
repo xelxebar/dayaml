@@ -1,4 +1,4 @@
-P←{IN←⍵
+P←{IN←⍵ ⋄ A Z←1+⍳2
  I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ R←{⍺⍺⌿∘⌽¨U⌽,⍀⊂¨⍵}
  assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
  X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
@@ -10,10 +10,10 @@ P←{IN←⍵
  CR LF←⎕UCS 13 10
  IN←LF,⍨LF@(=∘CR)IN/⍨ ~CR LF⍷IN
 
- ls←0,(⍸¯1=+⍀⍣¯1⊢IN∊LF),≢IN ⋄ le←(IN∊LF),≢IN ⋄ INN←(LF∘≠⊆⊢)IN
- SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪ls⍸⍵
+ s←0,(⍸¯1=+⍀⍣¯1⊢1,⍨IN∊LF) ⋄ e←(¯1↓1⌽s),≢IN ⋄ INN←(LF∘≠⊆⊢)IN
+ SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪s⍸⍵
   nos⍀⍨←1 0⍴⍨2×≢nos←'[',(⍕⍪lines),⍤1⊢'] '
-  msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨ls[lines+1]-beg←ls[lines]
+  msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨s[lines+1]-beg←s[lines]
   msg←¯1↓∊LF,⍨nos,⍪,msg,' ‾'∘I¨∊∘⍵¨idx
   dmx←('EN' EN)('Category' 'Parser')('Vendor' 'dayaml')('Message'(EM,LF,msg))
   ⎕SIGNAL⊂dmx}
@@ -23,9 +23,9 @@ P←{IN←⍵
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
  INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢¨⊃¨{∪⍺,⍨⍵↑⍨1+(⍬,⍵)⍸⍺}R⊢d
- ⍝ dirends docends←⍸¨((3⌽IN∊' 'LF)∧¯1⌽IN∊LF)∘∧¨('---'⍷IN)('...'⍷IN)
+ t←A×0=(1⍳⍨'---'∘⍷)¨INN ⋄ t∨←Z×0=(1⍳⍨'...'∘⍷)¨INN
 
- IN}
+ ⍉d,t,s,⍪e}
 
 ⍝ PHASES
 ⍝ Directives & Documents
