@@ -23,7 +23,7 @@ P←{IN←⍵ ⋄ A Z←1+⍳2
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
  INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢¨⊃¨{∪⍺,⍨⍵↑⍨1+(⍬,⍵)⍸⍺}R⊢d
- t←A×0=(1⍳⍨'---'∘⍷)¨INN ⋄ t∨←Z×0=(1⍳⍨'...'∘⍷)¨INN
+ t←3|1+'---' '...'⍳3↑¨INN
 
  ⍉d,t,s,⍪e}
 
