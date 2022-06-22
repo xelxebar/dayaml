@@ -1,7 +1,6 @@
 P←{IN←⍵ ⋄ A Z←1+⍳2
- I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ R←{⍺⍺⌿∘⌽¨U⌽,⍀⊂¨⍵}
+ I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
  assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
- X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
 
  1<≢⍴IN:'PARSER EXPECTS VECTOR INPUT'⎕SIGNAL 11
  1<|≡IN:'PARSER EXPECTS SIMPLE VECTOR INPUT'⎕SIGNAL 11
@@ -22,7 +21,7 @@ P←{IN←⍵ ⋄ A Z←1+⍳2
  c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
  ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
- INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢¨⊃¨{∪⍺,⍨⍵↑⍨1+(⍬,⍵)⍸⍺}R⊢d
+ INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢∘∊¨{∪(,⍵)[⍳1+⍵⍸⍥,⍺],⍺}⌿U⌽¨,⍀d
  t←A Z 0 I'--- ' '... '⍳4↑¨INN
 
  ⍉d,t,s,⍪e}
