@@ -22,7 +22,7 @@ c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
 INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢∘∊¨{∪⍺[⍳1+⍺⍸⍵],⍵}⍥,⍨⌿U⌽¨,⍀d
-t←A Z 0 I'--- ' '... '⍳4↑¨INN
+t←m\A Z 0I'--- ' '... '⍳4↑¨INN/⍨m←0=d
 
 ⍉d,t,s,⍪e}
 
