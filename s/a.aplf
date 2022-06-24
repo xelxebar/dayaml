@@ -1,4 +1,4 @@
- P←{IN←⍵ ⋄ A Z←1+⍳2
+ P←{IN←⍵ ⋄ A S K V Z←1+⍳5
 I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
 assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
 
@@ -22,7 +22,7 @@ c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
 INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢∘∊¨{∪⍺[⍳1+⍺⍸⍵],⍵}⍥,⍨⌿U⌽¨,⍀d
-t←m\A Z 0I'--- ' '... '⍳4↑¨INN/⍨m←0=d
+t←m\A Z 0I'--- ' '... '⍳4↑¨INN/⍨m←0=d ⋄ t∨←S K V 0I'- ' '? ' ': '⍳2↑¨INN
 
 ⍉d,t,s,⍪e}
 
