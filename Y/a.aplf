@@ -19,12 +19,15 @@ dmx←('EN' EN)('Category' 'Parser')('Vendor' 'dayaml')('Message'(EM,LF,msg))
 
 c_printable←X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
 c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
+c_escapes←'"\'
+e_val←    'XY'
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
 INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢∘∊¨{∪⍺[⍳1+⍺⍸⍵],⍵}⍥,⍨⌿U⌽¨,⍀d
 t←m\A Z 0I'--- ' '... '⍳4↑¨INN/⍨m←0=d ⋄ t∨←S K V 0I'- ' '? ' ': '⍳2↑¨INN
 
-⍉d,t,s,⍪e}
+(k ks v ts s e)←⊂0⍴⍨≢d
+d k ks v t ts s e}
 
 
 ⍝ PHASES
@@ -42,6 +45,12 @@ t←m\A Z 0I'--- ' '... '⍳4↑¨INN/⍨m←0=d ⋄ t∨←S K V 0I'- ' '? ' ':
 ⍝ NOTES
 ⍝ Adam's dyadic extension of ⌸
 ⍝_←(1↓k){p[⍺]←⍵[⍵⍸⍺]}¨I∘⍋⍨¨,⍀¯1↓k←(⍋∪d)I⍨⊢∘⊂⌸d⊣p←⍳≢d
+
+⍝m←≠\('"'=IN)≠¯1⌽'\"'⍷IN
+⍝IN←(~em)/(e_val I c_escapes⍳{⎕←⍵})@(⍸m∧¯1⌽em←('\'=IN)≠¯1⌽'\\'⍷IN)⊢IN
+⍝IN[i]←e_val I c_escapes⍳IN[i←⍸m∧¯1⌽em←('\'=IN)≠¯1⌽'\\'⍷IN] ⋄ IN/⍨←~em
+⍝IN[i](e_val I c_escapes⍳I)←i←⍸m∧¯1⌽em←('\'=IN)≠¯1⌽'\\'⍷IN ⋄ IN/⍨←~em
+
 
 ⍝ CHARACTER CLASSES
 ⍝ nb_json          ←⎕UCS∊(X⊂'09'),{⍺+⍳1+⍵-⍺}/∘X'20' '10FFFF'

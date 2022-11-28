@@ -1,0 +1,4 @@
+[submodule "R"]
+	path = R
+	url = https://github.com/yaml/yaml-test-suite.git
+	branch = data

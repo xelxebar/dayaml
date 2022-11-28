@@ -1,0 +1,10 @@
+TAP_LINE ok
+⍎'∆TAP_DESC←'''''/⍨0=⎕NC'∆TAP_DESC'
+⍎'∆TAP_DIR←'''''/⍨0=⎕NC'∆TAP_DIR'
+⍎'∆TAP_ID←'''''/⍨0=⎕NC'∆TAP_ID'
+
+⍎'∆TAP_ID+←1'/⍨0≠⎕NC'∆TAP_SUITE'
+⎕←∊' ',⍨⍪ok ∆TAP_ID ∆TAP_DESC ∆TAP_DIR
+→CLEAN/⍨0=⎕NC'∆TAP_DIAG'
+{}{⎕←⍵}¨∆TAP_DIAG
+CLEAN: TAP_CLEAN
