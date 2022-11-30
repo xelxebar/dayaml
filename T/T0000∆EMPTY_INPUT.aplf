@@ -1,4 +1,4 @@
 T0000∆EMPTY_INPUT
-TAP_DESC 'empty input'
-TAP_TODO 'P still a WIP'
-→TAP_OK
+TAP.DESC 'empty input'
+TAP.TODO 'P still a WIP'
+→TAP.NOTOK

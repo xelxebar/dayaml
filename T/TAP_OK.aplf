@@ -1,5 +1,0 @@
-z←TAP_OK
-→GO/⍨0=⎕NC'∆TAP_SUITE'
-∆TAP_SUCC+←1
-GO: TAP_LINE 'ok'
-z←0

@@ -1,6 +1,0 @@
-z←TAP_BAIL m
-→GO/⍨0=⎕NC'∆TAP_SUITE'
-∆TAP_SUITE←0
-GO: ⎕←∊' ',⍨⍪'Bail out!' m
-TAP_CLEAN
-z←0

@@ -1,7 +1,0 @@
-z←TAP_NOTOK
-→SUITE/⍨0=⎕NC'∆TAP_DIR'
-→GO/⍨'# TODO'=6↑∆TAP_DIR
-SUITE: →GO/⍨0=⎕NC'∆TAP_SUITE'
-∆TAP_FAIL+←1
-GO: TAP_LINE 'not ok'
-z←0

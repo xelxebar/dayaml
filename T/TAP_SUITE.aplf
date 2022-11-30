@@ -1,8 +1,0 @@
-TAP_SUITE r;∆TAP_SUCC;∆TAP_FAIL;∆TAP_SKIP;∆TAP_ID;∆TAP_SUITE;f;n
-∆TAP_SUITE←1
-∆TAP_SUCC ∆TAP_FAIL ∆TAP_SKIP ∆TAP_ID←0
-f←(r⎕S'&')↓⎕NL 3
-⎕←'1..',⍕≢f
-{}{⍎⍵,'⋄ 0'}¨f
-n←'Failed' 'Succeeded' 'Skipped' 'Total'
-⎕←n,⍪∆TAP_FAIL ∆TAP_SUCC ∆TAP_SKIP (≢f)

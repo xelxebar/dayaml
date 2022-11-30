@@ -1,3 +1,0 @@
-TAP_DIAG d
-⍎'∆TAP_DIAG←0⍴⊂'''''/⍨0=⎕NC'∆TAP_DIAG'
-∆TAP_DIAG,←⊂'# ',d

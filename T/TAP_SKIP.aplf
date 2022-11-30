@@ -1,6 +1,0 @@
-z←TAP_SKIP m
-→GO/⍨0=⎕NC'∆TAP_SUITE'
-∆TAP_SKIP+←1
-GO: ∆TAP_DIR←'# SKIP ',m
-TAP_LINE 'ok'
-z←0

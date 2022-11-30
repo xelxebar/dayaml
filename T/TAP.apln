@@ -1,0 +1,86 @@
+:Namespace TAP
+∇z←OK
+ →GO/⍨0=⎕NC'∆SUITE'
+ ∆SUCC+←1
+ GO: LINE 'ok'
+ z←0
+∇
+
+∇z←NOTOK
+ →SUITE/⍨0=⎕NC'∆DIR'
+ →GO/⍨'# TODO'=6↑∆DIR
+ SUITE: →GO/⍨0=⎕NC'∆SUITE'
+ ∆FAIL+←1
+ GO: LINE 'not ok'
+ z←0
+∇
+
+∇z←BAIL m
+ →GO/⍨0=⎕NC'∆SUITE'
+ ∆SUITE←0
+ GO: ⎕←∊' ',⍨⍪'Bail out!' m
+ CLEAN
+ z←0
+∇
+
+∇z←SKIP m
+ →GO/⍨0=⎕NC'∆SUITE'
+ ∆SKIP+←1
+ GO: ∆DIR←'# SKIP ',m
+ LINE 'ok'
+ z←0
+∇
+
+∇TODO m
+ ∆DIR←'# TODO ',m
+∇
+
+∇DESC d
+ ∆DESC←d
+∇
+
+∇DIAG d
+ ⍎'∆DIAG←0⍴⊂'''''/⍨0=⎕NC'∆DIAG'
+ ∆DIAG,←⊂'# ',d
+∇
+
+∇LINE r
+ ⍎'∆DESC←'''''/⍨0=⎕NC'∆DESC'
+ ⍎'∆DIR←'''''/⍨0=⎕NC'∆DIR'
+ ⍎'∆ID←'''''/⍨0=⎕NC'∆ID'
+ 
+ ⍎'∆ID+←1'/⍨0≠⎕NC'∆SUITE'
+ ⎕←∊' ',⍨⍪r ∆ID ∆DESC ∆DIR
+ →CLEAN/⍨0=⎕NC'∆DIAG'
+ {}{⎕←⍵}¨∆DIAG
+ CLEAN: {}CLEAN
+∇
+
+∇SUITE r;∆SUCC;∆FAIL;∆SKIP;∆ID;∆SUITE;f;n
+ ∆SUITE←1
+ ∆SUCC ∆FAIL ∆SKIP ∆ID←0
+ f←(r⎕S'&')↓##.⎕NL 3
+ ⎕←'1..',⍕≢f
+ {}{⍎'##.',⍵,'⋄ 0'}¨f
+ n←'Failed' 'Succeeded' 'Skipped' 'Total'
+ ⎕←n,⍪∆FAIL ∆SUCC ∆SKIP (≢f)
+∇
+
+∇CLEAN
+ ⎕EX¨'∆DESC' '∆DIR' '∆DIAG'
+∇
+
+:EndNamespace
+
+⍝ OK    ()           ∆SUCC←                                       ∆SUITE
+⍝ NOTOK ()                   ∆FAIL←          ∆DIR                 ∆SUITE
+⍝ BAIL  (m)                                                       ∆SUITE←
+⍝ SKIP  (m)                          ∆SKIP←  ∆DIR←                ∆SUITE←
+⍝
+⍝ TODO  (m)                                  ∆DIR←
+⍝ DESC  (d)  ∆DESC←
+⍝ DIAG  (m)                                               ∆DIAG←
+⍝
+⍝ LINE  (r)  ∆DESC*                          ∆DIR*  ∆ID→  ∆DIAG*  ∆SUITE
+⍝ SUITE (r)          ∆SUCC*  ∆FAIL*                 ∆ID*          ∆SUITE*
+⍝ CLEAN ()   ∆DESC*  ∆SUCC*  ∆FAIL*  ∆SKIP*  ∆DIR*  ∆ID*  ∆DIAG*
