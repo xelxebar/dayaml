@@ -51,9 +51,9 @@
  
  ⍎'∆ID+←1'/⍨0≠⎕NC'∆SUITE'
  ⎕←∊' ',⍨⍪r ∆ID ∆DESC ∆DIR
- →CLEAN/⍨0=⎕NC'∆DIAG'
+ →END/⍨0=⎕NC'∆DIAG'
  {}{⎕←⍵}¨∆DIAG
- CLEAN: {}CLEAN
+ END: CLEAN
 ∇
 
 ∇SUITE r;∆SUCC;∆FAIL;∆SKIP;∆ID;∆SUITE;f;n
