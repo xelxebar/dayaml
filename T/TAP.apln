@@ -1,86 +1,44 @@
 :Namespace TAP
-∇z←OK
- →GO/⍨0=⎕NC'∆SUITE'
- ∆SUCC+←1
- GO: LINE 'ok'
- z←0
-∇
+∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE ∆DESC ∆DIR ∆DIAG←(5⍴⊂⍬),(2⍴⊂''),⊂0⍴⊂''
 
-∇z←NOTOK
- →SUITE/⍨0=⎕NC'∆DIR'
- →GO/⍨'# TODO'=6↑∆DIR
- SUITE: →GO/⍨0=⎕NC'∆SUITE'
- ∆FAIL+←1
- GO: LINE 'not ok'
- z←0
-∇
+OK←{∆SUCC∘←1+⊃∆SUCC ⋄ ⍵ LINE 'ok'}
+NOTOK←{∆FAIL∘←(⊃∆FAIL)+'# TODO'≢6↑∆DIR ⋄ ⍵ LINE 'notok'}
+BAIL←{∆SUITE∘←(⍴∆SUITE)⍴0
+ ⎕←∊' ',⍨⍪'Bail out!' ⍵
+ CLEAN 0}
+SKIP←{⍺←0 ⋄ ∆SKIP∘←1+⊃∆SKIP ⋄ ∆DIR∘←'# SKIP ',⍵
+ ⍺ LINE 'ok'}
 
-∇z←BAIL m
- →GO/⍨0=⎕NC'∆SUITE'
- ∆SUITE←0
- GO: ⎕←∊' ',⍨⍪'Bail out!' m
- CLEAN
- z←0
-∇
+TODO←{∆DIR∘←'# TODO ',⍵}
+DESC←{∆DESC∘←⍵}
+DIAG←{∆DIAG∘←∆DIAG,⊂'# ',⍵}
 
-∇z←SKIP m
- →GO/⍨0=⎕NC'∆SUITE'
- ∆SKIP+←1
- GO: ∆DIR←'# SKIP ',m
- LINE 'ok'
- z←0
-∇
+LINE←{∆ID∘←1+⊃∆ID
+ ⎕←∊' ',⍨⍪⍵ ∆ID ∆DESC ∆DIR
+ ⍞←∊(⎕UCS 13),⍨↑∆DIAG
+ CLEAN ⍺}
 
-∇TODO m
- ∆DIR←'# TODO ',m
-∇
-
-∇DESC d
- ∆DESC←d
-∇
-
-∇DIAG d
- ⍎'∆DIAG←0⍴⊂'''''/⍨0=⎕NC'∆DIAG'
- ∆DIAG,←⊂'# ',d
-∇
-
-∇LINE r
- ⍎'∆DESC←'''''/⍨0=⎕NC'∆DESC'
- ⍎'∆DIR←'''''/⍨0=⎕NC'∆DIR'
- ⍎'∆ID←'''''/⍨0=⎕NC'∆ID'
- 
- ⍎'∆ID+←1'/⍨0≠⎕NC'∆SUITE'
- ⎕←∊' ',⍨⍪r ∆ID ∆DESC ∆DIR
- →END/⍨0=⎕NC'∆DIAG'
- {}{⎕←⍵}¨∆DIAG
- END: CLEAN
-∇
-
-∇SUITE r;∆SUCC;∆FAIL;∆SKIP;∆ID;∆SUITE;f;n
- ∆SUITE←1
- ∆SUCC ∆FAIL ∆SKIP ∆ID←0
- f←(r⎕S'&')↓##.⎕NL 3
+SUITE←{∆SUITE∘←1 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID∘←0
+ f←(⍵⎕S'&')↓##.⎕NL 3
  ⎕←'1..',⍕≢f
- {}{⍎'##.',⍵,'⋄ 0'}¨f
+ _←{⍎'##.',⍵,'⋄ 0'}¨f
  n←'Failed' 'Succeeded' 'Skipped' 'Total'
  ⎕←n,⍪∆FAIL ∆SUCC ∆SKIP (≢f)
-∇
+ ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE∘←5⍴⊂⍬}
 
-∇CLEAN
- ⎕EX¨'∆DESC' '∆DIR' '∆DIAG'
-∇
+CLEAN←{∆DESC ∆DIR ∆DIAG∘←(2⍴⊂''),⊂0⍴⊂'' ⋄ ⍵}
 
 :EndNamespace
 
-⍝ OK    ()           ∆SUCC←                                       ∆SUITE
-⍝ NOTOK ()                   ∆FAIL←          ∆DIR                 ∆SUITE
-⍝ BAIL  (m)                                                       ∆SUITE←
-⍝ SKIP  (m)                          ∆SKIP←  ∆DIR←                ∆SUITE←
+⍝ OK    ()   ∆SUCC←                        ∆SUITE
+⍝ NOTOK ()           ∆FAIL←                ∆SUITE           ∆DIR
+⍝ BAIL  (m)                                ∆SUITE←
+⍝ SKIP  (m)                  ∆SKIP←        ∆SUITE←          ∆DIR←
 ⍝
-⍝ TODO  (m)                                  ∆DIR←
-⍝ DESC  (d)  ∆DESC←
-⍝ DIAG  (m)                                               ∆DIAG←
+⍝ TODO  (m)                                                 ∆DIR←
+⍝ DESC  (d)                                         ∆DESC←
+⍝ DIAG  (m)                                                        ∆DIAG←
 ⍝
-⍝ LINE  (r)  ∆DESC*                          ∆DIR*  ∆ID→  ∆DIAG*  ∆SUITE
-⍝ SUITE (r)          ∆SUCC*  ∆FAIL*                 ∆ID*          ∆SUITE*
-⍝ CLEAN ()   ∆DESC*  ∆SUCC*  ∆FAIL*  ∆SKIP*  ∆DIR*  ∆ID*  ∆DIAG*
+⍝ LINE  (r)                          ∆ID   ∆SUITE→  ∆DESC*  ∆DIR*  ∆DIAG*
+⍝ SUITE (r)  ∆SUCC*  ∆FAIL*          ∆ID   ∆SUITE*
+⍝ CLEAN ()   ∆SUCC*  ∆FAIL*  ∆SKIP*  ∆ID*           ∆DESC*  ∆DIR*  ∆DIAG*

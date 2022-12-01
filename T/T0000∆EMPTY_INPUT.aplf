@@ -1,5 +1,6 @@
 T0000∆EMPTY_INPUT
 TAP.DESC 'empty input'
 TAP.TODO 'P still a WIP'
-TAP.DIAG 'A directive'
-→TAP.NOTOK
+TAP.DIAG 'Some diagnostic'
+TAP.DIAG 'Another diagnostic'
+→TAP.NOTOK 0
