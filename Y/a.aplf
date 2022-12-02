@@ -26,7 +26,7 @@ e_val←    'XY'
 INN↓¨⍨←d←⍳∘1¨' '≠INN ⋄ d←¯1+≢∘∊¨{∪⍺[⍳1+⍺⍸⍵],⍵}⍥,⍨⌿U⌽¨,⍀d
 t←m\A Z 0I'--- ' '... '⍳4↑¨INN/⍨m←0=d ⋄ t∨←S K V 0I'- ' '? ' ': '⍳2↑¨INN
 
-(k ks v ts s e)←⊂0⍴⍨≢d
+k v s e←⊂0⍴⍨≢d ⋄ ks ts←⊂(≢d)⍴⊂''
 d k ks v t ts s e}
 
 
