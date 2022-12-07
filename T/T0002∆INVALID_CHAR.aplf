@@ -1,0 +1,12 @@
+T0003∆INVALID_CHAR
+⎕TRAP←11 'E' '→T1'
+##.##.Y.P 'a',⎕UCS 1
+T1: _←'invalid trailing character' TAP.LINE 'INVALID CHARACTER AT POSITION(S) 1'≡⎕DMX.EM
+
+⎕TRAP←11 'E' '→T2'
+##.##.Y.P (⎕UCS 1),'a'
+T2: _←'invalid leading character' TAP.LINE 'INVALID CHARACTER AT POSITION(S) 0'≡⎕DMX.EM
+
+⎕TRAP←11 'E' '→T3'
+##.##.Y.P 'a',(⎕UCS 1),'b',(⎕UCS 1),'c'
+T3: _←'invalid intersperced characters' TAP.LINE 'INVALID CHARACTER AT POSITION(S) 1 3'≡⎕DMX.EM

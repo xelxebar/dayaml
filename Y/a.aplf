@@ -12,9 +12,9 @@ IN←LF,⍨LF@(=∘CR)IN/⍨ ~CR LF⍷IN
 s←0,(⍸¯1=+⍀⍣¯1⊢1,⍨IN∊LF) ⋄ e←(¯1↓1⌽s),≢IN ⋄ INN←(LF∘≠⊆⊢)IN
  SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪s⍸⍵
 nos⍀⍨←1 0⍴⍨2×≢nos←'[',(⍕⍪lines),⍤1⊢'] '
-msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨s[lines+1]-beg←s[lines]
+msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨e[lines]-beg←s[lines]
 msg←¯1↓∊LF,⍨nos,⍪,msg,' ‾'∘I¨∊∘⍵¨idx
-dmx←('EN' EN)('Category' 'Parser')('Vendor' 'dayaml')('Message'(EM,LF,msg))
+dmx←('EN' EN)('EM' EM)('Category' 'Parser')('Vendor' 'dayaml')('Message'(EM,LF,msg))
 ⎕SIGNAL⊂dmx}
 
 c_printable←X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
