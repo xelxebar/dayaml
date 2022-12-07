@@ -21,7 +21,7 @@ SUITE←{∆SUITE∘←1 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID∘←0
  ⎕←n,⍪∆FAIL ∆SUCC ∆SKIP (≢f)
  ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE∘←5⍴⊂⍬}
 
-CLEAN←{∆DESC ∆DIR ∆DIAG∘←(2⍴⊂''),⊂0⍴⊂'' ⋄ 0}
+CLEAN←{∆DESC ∆DIR ∆DIAG∘←(2⍴⊂''),⊂0⍴⊂''}
 
 :EndNamespace
 
