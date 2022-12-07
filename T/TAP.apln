@@ -1,24 +1,22 @@
 :Namespace TAP
-∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE ∆DESC ∆DIR ∆DIAG←(5⍴⊂⍬),(2⍴⊂''),⊂0⍴⊂''
+⎕IO←0 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE ∆DIAG←(5⍴⊂⍬),⊂0⍴⊂''
 
-TODO←{∆DIR∘←'# TODO ',⍵}
-DESC←{∆DESC∘←⍵}
 DIAG←{∆DIAG∘←∆DIAG,⊂'# ',⍵}
-
-LINE←{∆ID∘←1+⊃∆ID
- s←(⍵=1)⌷'not ok' 'ok'
- ∆SUCC∘←(⍵=1)+⊃∆SUCC
- ∆FAIL∘←(⊃∆FAIL)+('# TODO'≢6↑∆DIR)∧⍵=0
- ⎕←∊' ',⍨⍪s ∆ID ∆DESC ∆DIR
+LINE←{s←(⍵=1)⌷'not ok' 'ok' ⋄ m d←2⍴(⊆⍺),⊂'' ⋄ c←'' 'TODO' 'SKIP'⍳⊂(⊢↓⍨4-≢)d
+ ∆SUCC∘←(⍴∆SUITE)⍴(c∊0 1)∧(⍵=1)+⊃∆SUCC
+ ∆FAIL∘←(⍴∆SUITE)⍴(c=0)∧(⍵=0)+⊃∆FAIL
+ ∆SKIP∘←(⍴∆SUITE)⍴(c=2)+⊃∆SKIP
+ ∆ID  ∘←(⍴∆SUITE)⍴1+⊃∆ID
+ ⎕←∊' ',⍨⍪s ∆ID m (d,⍨'# '/⍨0<≢d)
  ⍞←∊(⎕UCS 13),⍨↑∆DIAG
  CLEAN ⍬}
-SKIP←{⍺←0 ⋄ ∆SKIP∘←1+⊃∆SKIP ⋄ ∆DIR∘←'# SKIP ',⍵ ⋄ LINE 1}
-BAIL←{∆SUITE∘←(⍴∆SUITE)⍴0 ⋄ ⎕←∊' ',⍨⍪'Bail out!' ⍵ ⋄ CLEAN 0}
+SKIP←{⍺←'' ⋄ ⍵ ('SKIP ',⍺) LINE 1}
+BAIL←{∆SUITE∘←(⍴∆SUITE)⍴0 ⋄ ⎕←∊' ',⍨⍪'Bail out!' ⍵ ⋄ CLEAN ⍬}
 
 SUITE←{∆SUITE∘←1 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID∘←0
  f←(⍵⎕S'&')↓##.⎕NL 3
- ⎕←'1..',⍕≢f
  _←{⍎'##.',⍵,'⋄ 0'}¨f
+ ⎕←'1..',⍕∆ID
  n←'Failed' 'Succeeded' 'Skipped' 'Total'
  ⎕←n,⍪∆FAIL ∆SUCC ∆SKIP (≢f)
  ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE∘←5⍴⊂⍬}
@@ -32,8 +30,6 @@ CLEAN←{∆DESC ∆DIR ∆DIAG∘←(2⍴⊂''),⊂0⍴⊂'' ⋄ 0}
 ⍝ BAIL  (m)                                ∆SUITE←
 ⍝ SKIP  (m)                  ∆SKIP←        ∆SUITE←          ∆DIR←
 ⍝
-⍝ TODO  (m)                                                 ∆DIR←
-⍝ DESC  (d)                                         ∆DESC←
 ⍝ DIAG  (m)                                                        ∆DIAG←
 ⍝
 ⍝ LINE  (r)                          ∆ID   ∆SUITE→  ∆DESC*  ∆DIR*  ∆DIAG*

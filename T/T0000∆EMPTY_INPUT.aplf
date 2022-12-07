@@ -1,4 +1,3 @@
 T0000∆EMPTY_INPUT
-d k v t s e←⊂⍬ ⋄ ks ts←⊂0⍴''
-TAP.DESC 'empty input'
-→TAP.LINE d k ks v t ts s e ≢ ##.##.Y.P''
+d k v t s e←⊂⍬ ⋄ ks ts←⊂0⍴⊂''
+→'empty input' TAP.LINE d k ks v t ts s e ≡ ##.##.Y.P''

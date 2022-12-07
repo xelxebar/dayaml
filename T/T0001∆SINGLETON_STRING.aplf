@@ -1,4 +1,3 @@
 T0001∆SINGLETON_STRING
-TAP.DESC 'Top-level Singleton string'
 d k v t s e←0 ⋄ ks ts←⊂''
-→TAP.LINE d k ks v t ts s e ≢ ##.##.Y.P''
+→'Singleton string' TAP.LINE d k ks v t ts s e ≡ ##.##.Y.P''
