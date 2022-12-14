@@ -1,10 +1,11 @@
 :Namespace TAP
-⎕IO←0 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE ∆DIAG←(5⍴⊂⍬),⊂0⍴⊂''
+⎕IO←0 ⋄ ∆SUCC ∆FAIL ∆TODO ∆SKIP ∆ID ∆SUITE ∆DIAG←(6⍴⊂⍬),⊂0⍴⊂''
 
 DIAG←{∆DIAG∘←∆DIAG,⊂'# ',⍵}
 TEST←{s←(⍵=1)⌷'not ok' 'ok' ⋄ m d←2⍴(⊆⍺),⊂'' ⋄ c←'' 'TODO' 'SKIP'⍳⊂(⊢↓⍨4-≢)d
- ∆SUCC∘←(⍴∆SUITE)⍴(c∊0 1)∧(⍵=1)+⊃∆SUCC
+ ∆SUCC∘←(⍴∆SUITE)⍴(c∊0)∧(⍵=1)+⊃∆SUCC
  ∆FAIL∘←(⍴∆SUITE)⍴(c=0)∧(⍵=0)+⊃∆FAIL
+ ∆TODO∘←(⍴∆SUITE)⍴(c=1)+⊃∆TODO
  ∆SKIP∘←(⍴∆SUITE)⍴(c=2)+⊃∆SKIP
  ∆ID  ∘←(⍴∆SUITE)⍴1+⊃∆ID
  ⎕←∊' ',⍨⍪s ∆ID m (d,⍨'# '/⍨0<≢d)
@@ -18,9 +19,9 @@ SUITE←{∆SUITE∘←1 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID∘←0
  f←(⍵⎕S'&')↓##.⎕NL 3
  _←{⍎'##.',⍵,'⋄ 0'}¨f
  ⎕←'1..',⍕∆ID
- n←'Failed' 'Succeeded' 'Skipped' 'Total'
- ⎕←n,⍪∆FAIL ∆SUCC ∆SKIP (≢f)
- ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE∘←5⍴⊂⍬}
+ n←'Failed' 'Succeeded' 'Todo' 'Skipped'
+ ⎕←n,⍪∆FAIL ∆SUCC ∆TODO ∆SKIP
+ ∆SUCC ∆FAIL ∆TODO ∆SKIP ∆ID ∆SUITE∘←6⍴⊂⍬}
 
 CLEAN←{∆DESC ∆DIR ∆DIAG∘←(2⍴⊂''),⊂0⍴⊂''}
 
