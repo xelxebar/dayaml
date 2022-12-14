@@ -2,7 +2,7 @@
 ⎕IO←0 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID ∆SUITE ∆DIAG←(5⍴⊂⍬),⊂0⍴⊂''
 
 DIAG←{∆DIAG∘←∆DIAG,⊂'# ',⍵}
-LINE←{s←(⍵=1)⌷'not ok' 'ok' ⋄ m d←2⍴(⊆⍺),⊂'' ⋄ c←'' 'TODO' 'SKIP'⍳⊂(⊢↓⍨4-≢)d
+TEST←{s←(⍵=1)⌷'not ok' 'ok' ⋄ m d←2⍴(⊆⍺),⊂'' ⋄ c←'' 'TODO' 'SKIP'⍳⊂(⊢↓⍨4-≢)d
  ∆SUCC∘←(⍴∆SUITE)⍴(c∊0 1)∧(⍵=1)+⊃∆SUCC
  ∆FAIL∘←(⍴∆SUITE)⍴(c=0)∧(⍵=0)+⊃∆FAIL
  ∆SKIP∘←(⍴∆SUITE)⍴(c=2)+⊃∆SKIP
@@ -11,6 +11,7 @@ LINE←{s←(⍵=1)⌷'not ok' 'ok' ⋄ m d←2⍴(⊆⍺),⊂'' ⋄ c←'' 'TOD
  ⍞←∊(⎕UCS 13),⍨↑∆DIAG
  CLEAN ⍬}
 SKIP←{⍺←'' ⋄ ⍵ ('SKIP ',⍺) LINE 1}
+TODO←{⍺←'' ⋄ ⍵ ('TODO ',⍺) LINE 1}
 BAIL←{∆SUITE∘←(⍴∆SUITE)⍴0 ⋄ ⎕←∊' ',⍨⍪'Bail out!' ⍵ ⋄ CLEAN ⍬}
 
 SUITE←{∆SUITE∘←1 ⋄ ∆SUCC ∆FAIL ∆SKIP ∆ID∘←0
