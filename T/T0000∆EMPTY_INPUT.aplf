@@ -1,3 +1,6 @@
 T0000∆EMPTY_INPUT
-d k v t s e←⊂⍬ ⋄ ks ts←⊂0⍴⊂''
-'empty input' TAP.TEST d k ks v t ts s e ≡ ##.##.Y.P''
+d k t a i s e←⊂,0 ⋄ tt←,¨'?!' ⋄ aa ii c←⊂,⊂'' ⋄
+R←d k t tt a aa i ii c s e ≡¨ ##.##.Y.P''
+→TEST/⍨∧/R
+TAP.DIAG ⍕R
+TEST: 'empty input' TAP.TEST ∧/R
