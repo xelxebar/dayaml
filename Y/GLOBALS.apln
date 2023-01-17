@@ -1,0 +1,8 @@
+:Namespace GLOBALS
+##.⎕IO←0
+##.(K_SCL K_SEQ K_MAP)←1+⍳3
+##.(T_STR T_SEQ T_MAP T_NULL T_BOOL T_INT T_FLOAT)←1+⍳7
+##.∆TAG_HANDLES←'!' '!!'
+_ _ prefix←##.∆TAG_PREFIXES←(' '∘≠⊆⊢)'? ! tag:yaml.org,2002:'
+##.CORE_TAGS←(⊂''),prefix∘,¨'str' 'seq' 'map' 'null' 'bool' 'int' 'float'
+:EndNamespace

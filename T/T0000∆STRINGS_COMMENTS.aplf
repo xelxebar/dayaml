@@ -1,0 +1,48 @@
+T0003∆STRINGS_COMMENTS;⎕TRAP;DESC;IN;R;d;k;t;tt;a;i;ii;c;s;e
+
+DESC←'Empty string'
+IN←''
+
+⎕TRAP←0 'C' '→EMPTY_STRING_ERR'
+d k t tt a i ii c s e v h p←##.Y.P IN ⋄ →EMPTY_STRING_PARSED
+
+EMPTY_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
+ R←0 ⋄ →EMPTY_STRING_END
+
+EMPTY_STRING_PARSED: R←1
+ TAP.DIAG 'Unexpected depth'/⍨~R∧←d≡,0
+ TAP.DIAG 'Unexpected kind'/⍨~R∧←k≡,##.Y.K_SCL
+ TAP.DIAG 'Unexpected tag'/⍨~R∧←(t≡,##.Y.T_STR)∧tt≡##.Y.CORE_TAGS
+ TAP.DIAG 'Unexpected alias'/⍨~R∧←a≡⍳≢d
+ TAP.DIAG 'Unexpected index'/⍨~R∧←(i≡,0)∧ii≡0⍴⊂''
+ TAP.DIAG 'Unexpected content'/⍨~R∧←c≡,⊂IN
+ TAP.DIAG 'Unexpected start'/⍨~R∧←s≡,0
+ TAP.DIAG 'Unexpected end'/⍨~R∧←e≡,≢IN
+ TAP.DIAG 'Unexpected YAML directive'/⍨~R∧←1=+/0=d
+ TAP.DIAG 'Unexpected TAG directive'/⍨~R∧←∧/(+/0=d)=≢¨h p
+
+EMPTY_STRING_END: DESC TAP.TEST R
+
+
+DESC←'Single line plain string'
+IN←'agent moss'
+
+⎕TRAP←0 'C' '→SINGLE_PLAIN_STRING_ERR'
+d k t tt a i ii c s e v h p←##.Y.P IN ⋄ →SINGLE_PLAIN_STRING_PARSED
+
+SINGLE_PLAIN_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
+ R←0 ⋄ →SINGLE_PLAIN_STRING_END
+
+SINGLE_PLAIN_STRING_PARSED: R←1
+ TAP.DIAG 'Unexpected depth'/⍨~R∧←d≡,0
+ TAP.DIAG 'Unexpected kind'/⍨~R∧←k≡,##.Y.K_SCL
+ TAP.DIAG 'Unexpected tag'/⍨~R∧←(t≡,##.Y.T_STR)∧tt≡##.Y.CORE_TAGS
+ TAP.DIAG 'Unexpected alias'/⍨~R∧←a≡⍳≢d
+ TAP.DIAG 'Unexpected index'/⍨~R∧←(i≡,0)∧ii≡0⍴⊂''
+ TAP.DIAG 'Unexpected content'/⍨~R∧←c≡,⊂IN
+ TAP.DIAG 'Unexpected start'/⍨~R∧←s≡,0
+ TAP.DIAG 'Unexpected end'/⍨~R∧←e≡,≢IN
+ TAP.DIAG 'Unexpected YAML directive'/⍨~R∧←1=+/0=d
+ TAP.DIAG 'Unexpected TAG directive'/⍨~R∧←∧/(+/0=d)=≢¨h p
+
+SINGLE_PLAIN_STRING_END: DESC TAP.TEST R

@@ -1,7 +1,0 @@
-T0001∆SINGLETON_STRING
-IN←'agent moss'
-d k t a i←⊂,0 ⋄ tt←,¨'?!' ⋄ aa←,⊂'' ⋄ ii←,⊂'' ⋄ c←,⊂IN ⋄ s e←↓⍪0,≢IN
-R←d k t tt a aa i ii c s e ≡¨ ##.##.Y.P IN
-→TEST/⍨∧/R
-TAP.DIAG ⍕R
-TEST: 'Singleton string' TAP.TEST ∧/R

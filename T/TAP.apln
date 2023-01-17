@@ -1,7 +1,7 @@
 :Namespace TAP
 ⎕IO←0 ⋄ ∆SUCC ∆FAIL ∆TODO ∆SKIP ∆ID ∆SUITE ∆DIAG←(6⍴⊂⍬),⊂0⍴⊂''
 
-DIAG←{∆DIAG∘←∆DIAG,⊂'# ',⍵}
+DIAG←{0=≢⍵: _←⍵ ⋄ ∆DIAG∘←∆DIAG,⊂'# ',⍵}
 TEST←{s←(⍵=1)⌷'not ok' 'ok' ⋄ m d←2⍴(⊆⍺),⊂'' ⋄ c←'' 'TODO' 'SKIP'⍳⊂(⊢↓⍨4-≢)d
  ∆SUCC∘←(⍴∆SUITE)⍴(c∊0)∧(⍵=1)+⊃∆SUCC
  ∆FAIL∘←(⍴∆SUITE)⍴(c=0)∧(⍵=0)+⊃∆FAIL

@@ -29,14 +29,21 @@ e_val    ,←⎕UCS X '20' '22' '2F' '5C' '85' 'A0' '2028' '2029'
 c_indicator←'-?:,[]{}#&*!|>''"%@`'
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
-tt←,¨'?!' ⋄ aa←,⊂''
+tt←CORE_TAGS ⋄ aa←,⊂'' ⋄ v h p←(,⊂'1.2') (,⊂∆TAG_HANDLES) (,⊂∆TAG_PREFIXES)
 
-state∆table ←⍉3 6⍴5 0 0 0 0 0  1 5 2 1 1 1  1 1 1 1 1 1
-state∆table,←⍉3 6⍴3 3 3 3 4 3  0 1 2 3 4 5  0 1 2 3 4 5
-state←{⌷∘state∆table⍤,/U⌽¨,\'''' '"' '\' '#' LF⍳⍵}IN
-m←¯1⌽4=state ⋄ s←⍸m ⋄ e←⍸1⌽m ⋄ c←¯1↓¨m⊂IN ⋄ s+←c↓¨⍨←d←(1⍳⍨≠∘' ')¨c
-s d+←⊂(1+1⍳⍨' '≠1↓¨⊢)U(m∘/)c⊣m←⊃¨'-'=c ⋄ d←¯1+≢∘∊¨{∪⍺[⍳1+⍺⍸⍵],⍵}⍥,⍨⌿U⌽¨,⍀d
-⍝ '-?:'⍳⊃¨c
+s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN ⋄ c←¯1∘↓¨m⊂IN
 
-k i t a←⊂0⍴⍨≢d ⋄ ii←(≢d)⍴⊂''
-d k t tt a aa i ii c s e}
+d←,0 ⋄ k←K_SCL⍴⍨≢d ⋄ t←T_STR⍴⍨≢d ⋄ i a←⊂0⍴⍨≢d ⋄ ii←0⍴⊂''
+d k t tt a i ii c s e v h p}
+
+⍝ d - Depth
+⍝ k - Kind
+⍝ t - Tag, tt - Tag symbols
+⍝ a - Alias, aa - Alias symbols
+⍝ i - Index, ii - Index symbols
+⍝ c - Content
+⍝ s - Start
+⍝ e - End
+⍝ v - YAML Version
+⍝ h - TAG Handles
+⍝ p - TAG Prefixes
