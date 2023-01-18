@@ -3,7 +3,7 @@ T0003∆STRINGS_COMMENTS;⎕TRAP;DESC;IN;R;d;k;t;tt;a;i;ii;c;s;e
 DESC←'Empty string'
 IN←''
 
-⎕TRAP←0 'C' '→EMPTY_STRING_ERR'
+⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →EMPTY_STRING_ERR'
 d k t tt a i ii c s e v h p←##.Y.P IN ⋄ →EMPTY_STRING_PARSED
 
 EMPTY_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
@@ -27,7 +27,7 @@ EMPTY_STRING_END: DESC TAP.TEST R
 DESC←'Single line plain string'
 IN←'agent moss'
 
-⎕TRAP←0 'C' '→SINGLE_PLAIN_STRING_ERR'
+⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →SINGLE_PLAIN_STRING_ERR'
 d k t tt a i ii c s e v h p←##.Y.P IN ⋄ →SINGLE_PLAIN_STRING_PARSED
 
 SINGLE_PLAIN_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
@@ -46,3 +46,19 @@ SINGLE_PLAIN_STRING_PARSED: R←1
  TAP.DIAG 'Unexpected TAG directive'/⍨~R∧←∧/(+/0=d)=≢¨h p
 
 SINGLE_PLAIN_STRING_END: DESC TAP.TEST R
+
+
+DESC←'Invalid char'
+IN←'roger',⎕UCS 0
+
+⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →INVALID_CHAR_CATCH'
+_←##.Y.P IN ⋄ →INVALID_CHAR_MISS
+
+INVALID_CHAR_MISS: TAP.DIAG 'Missed invalid char'
+ R←0 ⋄ →INVALID_CHAR_END
+
+INVALID_CHAR_CATCH:
+ msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
+ TAP.DIAG 'Unexpected message'/⍨~R←⎕DMX.EM≡msg
+
+INVALID_CHAR_END: DESC TAP.TEST R
