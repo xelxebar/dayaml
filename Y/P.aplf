@@ -36,6 +36,8 @@ c←¯1∘↓¨m⊂IN
 d←⍳∘1¨' '≠c
 k←K_SCL⍴⍨≢d
 t←T_STR⍴⍨≢d
+s e←(1∘+@x⊢s) (¯1∘+@x⊢e)⊣x←⍸(=∧2≠⊢)/'''"'⍳IN[s,⍪s⌈¯1+e]
+c←(¯1↓1↓⊢)¨@x⊢c
 d k t s e c←(s≠e)∘/¨d k t s e c
 
 (d k t a i c s e) (tt ii v h p)}

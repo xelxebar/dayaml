@@ -43,3 +43,39 @@ INVALID_CHAR_CATCH:
  TAP.DIAG 'Unexpected message'/⍨~R←⎕DMX.EM≡msg
 
 INVALID_CHAR_END: DESC TAP.TEST R
+
+
+DESC←'Singleton single-quoted string'
+IN←'''magnificent oil'''
+
+⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →SINGLETON_SINGLE_QUOTED_STRING_ERR'
+dat←##.Y.P IN ⋄ →SINGLETON_SINGLE_QUOTED_STRING_OK
+
+SINGLETON_SINGLE_QUOTED_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
+ R←0 ⋄ →SINGLETON_SINGLE_QUOTED_STRING_END
+
+SINGLETON_SINGLE_QUOTED_STRING_OK:
+ exp←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+  d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN~'''') 1 (¯1+≢IN)
+  (d k t a i c s e) (tt ii v h p)}⍬
+ R←exp CHK∆MATCH dat
+
+SINGLETON_SINGLE_QUOTED_STRING_END: DESC TAP.TEST R
+
+
+DESC←'Singleton double-quoted string'
+IN←'"abilene"'
+
+⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →SINGLETON_DOUBLE_QUOTED_STRING_ERR'
+dat←##.Y.P IN ⋄ →SINGLETON_DOUBLE_QUOTED_STRING_OK
+
+SINGLETON_DOUBLE_QUOTED_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
+ R←0 ⋄ →SINGLETON_DOUBLE_QUOTED_STRING_END
+
+SINGLETON_DOUBLE_QUOTED_STRING_OK:
+ exp←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+  d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN~'"') 1 (¯1+≢IN)
+  (d k t a i c s e) (tt ii v h p)}⍬
+ R←exp CHK∆MATCH dat
+
+SINGLETON_DOUBLE_QUOTED_STRING_END: DESC TAP.TEST R
