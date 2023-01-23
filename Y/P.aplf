@@ -7,7 +7,7 @@ assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0
 1<|≡IN:'PARSER EXPECTS SIMPLE VECTOR INPUT'⎕SIGNAL 11
 0≠10|⎕DR IN:'PARSER EXPECTS CHARACTER VECTOR'⎕SIGNAL 11
 
-HT CR LF←⎕UCS 09 10 13
+HT LF CR←⎕UCS 09 10 13
 IN,←LF/⍨LF≠¯1↑IN←LF@(=∘CR)IN/⍨ ~CR LF⍷IN
 
 s←0,(⍸¯1=+⍀⍣¯1⊢1,⍨IN∊LF) ⋄ e←(¯1↓1⌽s),≢IN ⋄ INN←(LF∘≠⊆⊢)IN
@@ -29,12 +29,16 @@ e_val    ,←⎕UCS X '20' '22' '2F' '5C' '85' 'A0' '2028' '2029'
 c_indicator←'-?:,[]{}#&*!|>''"%@`'
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
-tt←CORE_TAGS ⋄ aa←,⊂'' ⋄ v h p←(,⊂'1.2') (,⊂∆TAG_HANDLES) (,⊂∆TAG_PREFIXES)
+(d k t a i c s e) (tt ii v h p)←MTAST
 
-s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN ⋄ c←¯1∘↓¨m⊂IN
+s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN
+c←¯1∘↓¨m⊂IN
+d←⍳∘1¨' '≠c
+k←K_SCL⍴⍨≢d
+t←T_STR⍴⍨≢d
+d k t s e c←(s≠e)∘/¨d k t s e c
 
-d←,0 ⋄ k←K_SCL⍴⍨≢d ⋄ t←T_STR⍴⍨≢d ⋄ i a←⊂0⍴⍨≢d ⋄ ii←0⍴⊂''
-d k t tt a i ii c s e v h p}
+(d k t a i c s e) (tt ii v h p)}
 
 ⍝ d - Depth
 ⍝ k - Kind
