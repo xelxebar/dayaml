@@ -1,81 +1,29 @@
-T0003∆STRINGS_COMMENTS;⎕TRAP;DESC;IN;R;d;k;t;tt;a;i;ii;c;s;e;flds;exp
+T0003∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP
 
 DESC←'Empty document' ⋄ IN←''
+ TEST←{CHK∆MATCH P IN}
+ RUN⍬
 
-⎕TRAP←2↑0 'S' '⎕TRAP←0⍴⎕TRAP ⋄ →EMPTY_DOC_ERR'
-dat←##.Y.P IN ⋄ →EMPTY_DOC_OK
-
-EMPTY_DOC_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
- R←0 ⋄ →EMPTY_DOC_END
-EMPTY_DOC_OK:  R←∧/CHK∆MATCH dat
-EMPTY_DOC_END: DESC TAP.TEST R
-
-
-DESC←'Single line plain string'
-IN←'agent moss'
-
-⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →SINGLE_PLAIN_STRING_ERR'
-dat←##.Y.P IN ⋄ →SINGLE_PLAIN_STRING_OK
-
-SINGLE_PLAIN_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
- R←0 ⋄ →SINGLE_PLAIN_STRING_END
-
-SINGLE_PLAIN_STRING_OK:
- exp←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+DESC←'Single line plain string' ⋄ IN←'agent moss'
+ TEST←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
   d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN) 0 (≢IN)
-  (d k t a i c s e) (tt ii v h p)}⍬
- R←exp CHK∆MATCH dat
+  (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
+ RUN⍬
 
-SINGLE_PLAIN_STRING_END: DESC TAP.TEST R
+DESC←'Invalid char' ⋄ IN←'roger',⎕UCS 0
+ TRAP←{msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
+  R⊣TAP.DIAG ('Unexpected message: ',msg)/⍨~R←⎕DMX.EM≡msg}
+ TEST←{_←P IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
+ RUN⍬
 
-
-DESC←'Invalid char'
-IN←'roger',⎕UCS 0
-
-⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →INVALID_CHAR_CATCH'
-_←##.Y.P IN ⋄ →INVALID_CHAR_MISS
-
-INVALID_CHAR_MISS: TAP.DIAG 'Missed invalid char'
- R←0 ⋄ →INVALID_CHAR_END
-
-INVALID_CHAR_CATCH:
- msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
- TAP.DIAG 'Unexpected message'/⍨~R←⎕DMX.EM≡msg
-
-INVALID_CHAR_END: DESC TAP.TEST R
-
-
-DESC←'Singleton single-quoted string'
-IN←'''magnificent oil'''
-
-⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →SINGLETON_SINGLE_QUOTED_STRING_ERR'
-dat←##.Y.P IN ⋄ →SINGLETON_SINGLE_QUOTED_STRING_OK
-
-SINGLETON_SINGLE_QUOTED_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
- R←0 ⋄ →SINGLETON_SINGLE_QUOTED_STRING_END
-
-SINGLETON_SINGLE_QUOTED_STRING_OK:
- exp←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+DESC←'Singleton single-quoted string' ⋄ IN←'''magnificent oil'''
+ TEST←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
   d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN~'''') 1 (¯1+≢IN)
-  (d k t a i c s e) (tt ii v h p)}⍬
- R←exp CHK∆MATCH dat
+  (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
+ RUN⍬
 
-SINGLETON_SINGLE_QUOTED_STRING_END: DESC TAP.TEST R
-
-
-DESC←'Singleton double-quoted string'
-IN←'"abilene"'
-
-⎕TRAP←0 'C' '⎕TRAP←0⍴⎕TRAP ⋄ →SINGLETON_DOUBLE_QUOTED_STRING_ERR'
-dat←##.Y.P IN ⋄ →SINGLETON_DOUBLE_QUOTED_STRING_OK
-
-SINGLETON_DOUBLE_QUOTED_STRING_ERR: TAP.DIAG ⍕⎕DMX.(EM Message)
- R←0 ⋄ →SINGLETON_DOUBLE_QUOTED_STRING_END
-
-SINGLETON_DOUBLE_QUOTED_STRING_OK:
- exp←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+DESC←'Singleton double-quoted string' ⋄ IN←'"abilene"'
+ TEST←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
   d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN~'"') 1 (¯1+≢IN)
-  (d k t a i c s e) (tt ii v h p)}⍬
- R←exp CHK∆MATCH dat
-
-SINGLETON_DOUBLE_QUOTED_STRING_END: DESC TAP.TEST R
+  (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
+ RUN⍬
