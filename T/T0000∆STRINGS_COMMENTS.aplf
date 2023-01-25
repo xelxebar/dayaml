@@ -1,29 +1,20 @@
-T0003∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP
+T0003∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
+⍝ ast meta←(d k t a i c s e) (tt ii v h p)
 
-DESC←'Empty document' ⋄ IN←''
- TEST←{CHK∆MATCH P IN}
- RUN⍬
+'Empty document' WITH ''
 
-DESC←'Single line plain string' ⋄ IN←'agent moss'
- TEST←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+'Single line plain string' WITH 'agent moss'
   d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN) 0 (≢IN)
-  (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
- RUN⍬
 
-DESC←'Invalid char' ⋄ IN←'roger',⎕UCS 0
- TRAP←{msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
-  R⊣TAP.DIAG ('Unexpected message: ',msg)/⍨~R←⎕DMX.EM≡msg}
- TEST←{_←P IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
- RUN⍬
+'Invalid char' WITH 'roger',⎕UCS 0
+  TRAP←{msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
+   R⊣TAP.DIAG ('Unexpected message: ',msg)/⍨~R←⎕DMX.EM≡msg}
+  EXEC←{_←P IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
 
-DESC←'Singleton single-quoted string' ⋄ IN←'''magnificent oil'''
- TEST←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+'Singleton single-quoted string' WITH '''magnificent oil'''
   d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN~'''') 1 (¯1+≢IN)
-  (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
- RUN⍬
 
-DESC←'Singleton double-quoted string' ⋄ IN←'"abilene"'
- TEST←{(d k t a i c s e) (tt ii v h p)←##.Y.MTAST
+'Singleton double-quoted string' WITH '"abilene"'
   d k t c s e⍪←0 (##.Y.K_SCL) (##.Y.T_STR) (⊂IN~'"') 1 (¯1+≢IN)
-  (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
- RUN⍬
+
+SUITE_END⍬

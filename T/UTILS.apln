@@ -30,11 +30,6 @@ DISPLAY←{⎕IO ⎕ML←0                    ⍝ Boxed display of array.
  }⍵}
 ##.DISPLAY←DISPLAY
 
-TRAP←{}                                 ⋄ ##.TRAP←TRAP
-∆TRAP←{TAP.DIAG ⍕⎕DMX.(EM Message) ⋄ 0} ⋄ ##.∆TRAP←∆TRAP
-TEST←{}                                 ⋄ ##.TEST←TEST
-∆TEST←{CHK∆MATCH ##.Y.P IN}             ⋄ ##.∆TEST←∆TEST
-
 CHK∆MATCH←{⍺←##.Y.MTAST ⋄ exp act←⍺ ⍵
  _←{m←⊂'Unexpected ',(⍵⊃##.Y.FLDS),':'
   m,←⊂2 2⍴'Expected:' (DISPLAY ⍵⊃exp) 'Found:' (DISPLAY ⍵⊃act)
@@ -42,13 +37,34 @@ CHK∆MATCH←{⍺←##.Y.MTAST ⋄ exp act←⍺ ⍵
  }{0∊⍴⍵: _←⍵ ⋄ ⍺⍺¨⍵}⍸↑⍣≡r←exp≢¨¨act ⋄ ∧/∊~r}
 ##.CHK∆MATCH←CHK∆MATCH
 
-∇RUN Y;⎕TRAP
- ⎕TRAP←0 'C' ('⎕TRAP←0⍴⎕TRAP ⋄ DESC TAP.TEST TRAP⍬ ⋄ →',⍕¯1↑⎕LC)
- ⍎'TRAP←∆TRAP'/⍨0=⎕NC'TRAP'
- DESC TAP.TEST TEST⍬ ⋄ ⎕EX 'TRAP'
-∇
-##.RUN←RUN
+##.P←##.##.Y.P ⋄ ##.MTAST←##.##.Y.MTAST
+##.((d k t a i c s e) (tt ii v h p))←##.MTAST
 
-##.P←##.##.Y.P
+∆TRAP←{
+ _←TAP.DIAG ⍕⎕DMX.(EM Message) ⋄ 0}
+##.∆TRAP←∆TRAP
+
+∆EXEC←{
+ (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
+##.∆EXEC←∆EXEC
+
+_INIT_TEST←{⎕THIS.((d k t a i c s e) (tt ii v h p))←MTAST
+ ⎕THIS.TRAP←∆TRAP ⋄ ⎕THIS.EXEC←∆EXEC}
+##._INIT_TEST←_INIT_TEST
+
+_EXEC_TEST←{
+ ~∧/×⎕NC'EXEC' 'TRAP': ⍬
+ ⎕TRAP←0 'C' ('⎕TRAP←0⍴⎕TRAP ⋄ DESC TAP.TEST TRAP⍬ ⋄ →0')
+ DESC TAP.TEST EXEC⍬}
+##._EXEC_TEST←_EXEC_TEST
+
+∇desc WITH in
+ _EXEC_TEST⍬ ⋄ DESC IN←desc in ⋄ _INIT_TEST⍬
+∇
+##.WITH←WITH
+
+SUITE_END←{
+ _EXEC_TEST⍬}
+##.SUITE_END←SUITE_END
 
 :EndNamespace
