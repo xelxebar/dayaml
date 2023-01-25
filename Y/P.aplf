@@ -1,7 +1,7 @@
  P←{IN←⍵ ⋄ M S X←1+⍳3
 I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ R←{⍺⍺⍨/U⌽¨,\⍵}
 X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
-assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ shy←0}
+assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ _←0}
 
 1<≢⍴IN:'PARSER EXPECTS VECTOR INPUT'⎕SIGNAL 11
 1<|≡IN:'PARSER EXPECTS SIMPLE VECTOR INPUT'⎕SIGNAL 11
@@ -32,12 +32,11 @@ c_indicator←'-?:,[]{}#&*!|>''"%@`'
 (d k t a i c s e) (tt ii v h p)←MTAST
 
 s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN
-c←¯1∘↓¨m⊂IN
-d←⍳∘1¨' '≠c
-k←K_SCL⍴⍨≢d
-t←T_STR⍴⍨≢d
-s e←(1∘+@x⊢s) (¯1∘+@x⊢e)⊣x←⍸(=∧2≠⊢)/'''"'⍳IN[s,⍪s⌈¯1+e]
-c←(¯1↓1↓⊢)¨@x⊢c
+d←⍳∘1¨' '≠c←¯1∘↓¨m⊂IN
+k t←(≢d)⍴∘⊂¨K_SCL T_STR
+
+c←↓⌿c⍪⍨↑s e+←1 ¯1×↓2≠'''"'⍳⍉IN[s,⍪s⌈e-1]
+
 d k t s e c←(s≠e)∘/¨d k t s e c
 
 (d k t a i c s e) (tt ii v h p)}
