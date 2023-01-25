@@ -1,5 +1,8 @@
 :Namespace UTILS
 
+(⍕##)⎕NS##.##.Y
+##.((d k t a i c s e) (tt ii v h p))←##.MTAST
+
 DISPLAY←{⎕IO ⎕ML←0                    ⍝ Boxed display of array.
  ⍺←1 ⋄ chars←⍺⊃'..''''|-' '┌┐└┘│─'    ⍝ ⍺: 0-clunky, 1-smooth.
 
@@ -36,9 +39,6 @@ CHK∆MATCH←{⍺←##.Y.MTAST ⋄ exp act←⍺ ⍵
   TAP.DIAG∊(⍕⍪m),⎕UCS 13
  }{0∊⍴⍵: _←⍵ ⋄ ⍺⍺¨⍵}⍸↑⍣≡r←exp≢¨¨act ⋄ ∧/∊~r}
 ##.CHK∆MATCH←CHK∆MATCH
-
-##.P←##.##.Y.P ⋄ ##.MTAST←##.##.Y.MTAST
-##.((d k t a i c s e) (tt ii v h p))←##.MTAST
 
 ∆TRAP←{
  _←TAP.DIAG ⍕⎕DMX.(EM Message) ⋄ 0}
