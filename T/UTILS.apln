@@ -54,13 +54,12 @@ _INIT_TEST←{⎕THIS.((d k t a i c s e) (tt ii v h p))←MTAST
 
 _EXEC_TEST←{
  ~∧/×⎕NC'EXEC' 'TRAP': ⍬
- ⎕TRAP←0 'C' ('⎕TRAP←0⍴⎕TRAP ⋄ DESC TAP.TEST TRAP⍬ ⋄ →0')
+ 0:: DESC TAP.TEST TRAP⍬
  DESC TAP.TEST EXEC⍬}
 ##._EXEC_TEST←_EXEC_TEST
 
-∇desc WITH in
- _EXEC_TEST⍬ ⋄ DESC IN←desc in ⋄ _INIT_TEST⍬
-∇
+WITH←{
+ _←_EXEC_TEST⍬ ⋄ ⎕THIS.(DESC IN)←⍺ ⍵ ⋄ _INIT_TEST⍬}
 ##.WITH←WITH
 
 SUITE_END←{
