@@ -21,7 +21,7 @@ dmx,←('Category' 'Parser')('Vendor' 'dayaml')
 
 c_printable←X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
 c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
-ns_char←c_printable~CR LF,HT ' ',X 'FEFF'
+s_char←CR LF,HT ' ',X 'FEFF'
 c_escapes ←∊       '0'  'a'  'b'  't'   HT  'n'  'v'  'f'  'r'  'e'
 e_val     ←⎕UCS X '00' '07' '08' '09' '09' '0A' '0B' '0C' '0D' '1B'
 c_escapes,←∊       ' '  '"'  '/'  '\'  'N'  '_'    'L'    'P'  'x'  'u'  'U'
