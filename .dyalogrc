@@ -1,3 +1,4 @@
- RC←{
-⎕←⎕SE.UCMD'Link.Create Y Y -source=dir -watch=dir'
-⎕←⎕SE.UCMD'Link.Create T T -source=dir -watch=dir'}
+RC←{
+ dirs←'Y' 'T'
+ {⎕←⎕SE.UCMD'Link.Create ',⍵,' ',⍵,' -source=dir -watch=dir'}¨dirs
+}
