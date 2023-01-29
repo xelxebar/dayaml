@@ -17,4 +17,7 @@ T0003∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
 'Singleton QQ string' WITH '"abilene"'
   d k t c s e⍪←0 K_SCL T_STR (⊂IN~'"') 1 (¯1+≢IN)
 
+'Quoted string with padding' WITH '   "',str,'"  '⊣str←'trees are sentient'
+  d k t c s e⍪←0 K_SCL T_STR (⊂str) 4 (4+≢str)
+
 SUITE_END⍬

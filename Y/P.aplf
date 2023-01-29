@@ -35,6 +35,8 @@ s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN
 d←⍳∘1¨' '≠c←¯1∘↓¨m⊂IN
 k t←(≢d)⍴∘⊂¨K_SCL T_STR
 
+d←¯1+≢∘∊¨{∪⍺[⍳⊃1+⍺⍸⍵],⍵}⍥,⍨/∘⌽¨,\d         ⍝ TODO: burninate the ugly
+c←↓⌿c⍪⍨↑s e+←⍉U↑(1 ¯1×⊢,⍥(⍳∘1)⌽)¨' '≠c
 c←↓⌿c⍪⍨↑s e+←1 ¯1×↓2≠'''"'⍳⍉IN[s,⍪s⌈e-1]
 
 d k t s e c←(s≠e)∘/¨d k t s e c
