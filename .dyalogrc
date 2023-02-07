@@ -1,4 +1,5 @@
 RC←{
+ ⎕NEXISTS⊢f←'.save.dws': ⎕LOAD f
  dirs←'Y' 'T'
- {⎕←⎕SE.UCMD'Link.Create ',⍵,' ',⍵,' -source=dir -watch=dir'}¨dirs
+ {⎕←⎕SE.UCMD'Link.Create ',⍵,' ',⍵,' -source=dir -watch=both'}¨dirs
 }

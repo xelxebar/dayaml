@@ -1,7 +1,7 @@
 :Namespace UTILS
 
-(⍕##)⎕NS##.##.Y
-##.((d k t a i c s e) (tt ii v h p))←##.MTAST
+##.Y←##.##.Y
+##.((d k t a i c s e) (tt ii v h p))←##.Y.MTAST
 
 DISPLAY←{⎕IO ⎕ML←0                    ⍝ Boxed display of array.
  ⍺←1 ⋄ chars←⍺⊃'..''''|-' '┌┐└┘│─'    ⍝ ⍺: 0-clunky, 1-smooth.
@@ -33,8 +33,8 @@ DISPLAY←{⎕IO ⎕ML←0                    ⍝ Boxed display of array.
  }⍵}
 ##.DISPLAY←DISPLAY
 
-CHK∆MATCH←{⍺←##.Y.MTAST ⋄ exp act←⍺ ⍵
- _←{m←⊂'Unexpected ',(⍵⊃##.Y.FLDS),':'
+CHK∆MATCH←{⍺←Y.MTAST ⋄ exp act←⍺ ⍵
+ _←{m←⊂'Unexpected ',(⍵⊃Y.FLDS),':'
   m,←⊂2 2⍴'Expected:' (DISPLAY ⍵⊃exp) 'Found:' (DISPLAY ⍵⊃act)
   TAP.DIAG∊(⍕⍪m),⎕UCS 13
  }{0∊⍴⍵: _←⍵ ⋄ ⍺⍺¨⍵}⍸↑⍣≡r←exp≢¨¨act ⋄ ∧/∊~r}
@@ -45,10 +45,10 @@ CHK∆MATCH←{⍺←##.Y.MTAST ⋄ exp act←⍺ ⍵
 ##.∆TRAP←∆TRAP
 
 ∆EXEC←{
- (d k t a i c s e) (tt ii v h p) CHK∆MATCH P IN}
+ (d k t a i c s e) (tt ii v h p) CHK∆MATCH Y.PS IN}
 ##.∆EXEC←∆EXEC
 
-_INIT_TEST←{⎕THIS.((d k t a i c s e) (tt ii v h p))←MTAST
+_INIT_TEST←{⎕THIS.((d k t a i c s e) (tt ii v h p))←Y.MTAST
  ⎕THIS.TRAP←∆TRAP ⋄ ⎕THIS.EXEC←∆EXEC}
 ##._INIT_TEST←_INIT_TEST
 

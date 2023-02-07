@@ -1,23 +1,26 @@
-T0003∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
-⍝ ast meta←(d k t a i c s e) (tt ii v h p)
+T0000∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
+ ⍝ ast meta←(d k t a i c s e) (tt ii v h p)
 
 'Empty document' WITH ''
 
 'Single line plain string' WITH 'agent moss'
-  d k t c s e⍪←0 K_SCL T_STR (⊂IN) 0 (≢IN)
+  d k t a i c s e⍪←0 Y.P Y.T_NSP 0 0 (⊂IN) 0 (≢IN)
 
 'Invalid char' WITH 'roger',⎕UCS 0
   TRAP←{msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
    R⊣TAP.DIAG ('Unexpected message: ',msg)/⍨~R←⎕DMX.EM≡msg}
-  EXEC←{_←P IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
+  EXEC←{_←Y.PS IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
 
-'Singleton Q string' WITH '''magnificent oil'''
-  d k t c s e⍪←0 K_SCL T_STR (⊂IN~'''') 1 (¯1+≢IN)
+'Singleton single-quoted string' WITH '''magnificent oil'''
+  d k t a i c s e⍪←0 Y.Q Y.T_STR 0 0 (⊂IN~'''') 1 (¯1+≢IN)
 
-'Singleton QQ string' WITH '"abilene"'
-  d k t c s e⍪←0 K_SCL T_STR (⊂IN~'"') 1 (¯1+≢IN)
+'Singleton double-quoted string' WITH '"abilene"'
+  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂IN~'"') 1 (¯1+≢IN)
 
 'Quoted string with padding' WITH '   "',str,'"  '⊣str←'trees are sentient'
-  d k t c s e⍪←0 K_SCL T_STR (⊂str) 4 (4+≢str)
+  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂str) 4 (4+≢str)
+
+'Escaped double quote in QQ string' WITH '"mains \"power\""'
+  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂'mains "power"') 1 (¯1+≢IN)
 
 SUITE_END⍬
