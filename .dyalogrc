@@ -1,5 +1,7 @@
 RC←{
- ⎕NEXISTS⊢f←'.save.dws': ⎕LOAD f
  dirs←'Y' 'T'
- {⎕←⎕SE.UCMD'Link.Create ',⍵,' ',⍵,' -source=dir -watch=both'}¨dirs
+ _←{⎕←⎕SE.UCMD'Link.Create ',⍵,' ',⍵,' -source=dir -watch=both'}¨dirs
+ _←⎕CY 'ALE'
+ ∆PS ∆GL∘←'Y/PS.aplf' 'Y/GLOBALS.apln'
+ ∆TT ∆UT ∆TAP∘←'T/T0000∆STRINGS_COMMENTS.aplf' 'T/UTILS.apln' 'T/TAP.apln'
 }
