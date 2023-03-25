@@ -41,7 +41,7 @@ CHK∆MATCH←{⍺←Y.MTAST ⋄ exp act←⍺ ⍵
 ##.CHK∆MATCH←CHK∆MATCH
 
 ∆TRAP←{
- _←TAP.DIAG ⍕⎕DMX.(EM Message) ⋄ 0}
+ _←TAP.DIAG∘⍕¨⎕DMX.(DM) ⋄ 0}
 ##.∆TRAP←∆TRAP
 
 ∆EXEC←{

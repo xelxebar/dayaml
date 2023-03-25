@@ -37,11 +37,14 @@ d k t a i←⊂0⍴⍨≢⊃c s e←(s≠e)∘/¨c s e
 c←(⍴c)⍴↓⌿c⍪⍨⍥{⍵⍴⍨1⌈⍴⍵}m←1 ¯1∘.{rf←¯1≡⍺ ⋄ ⍺×1⍳⍨⊖⍣rf⊢' '≠⍵}c ⋄ d←⊃s e+←↓m
 d←¯1+≢∘∊¨{∪⍺[⍳⊃1+⍺⍸⍵],⍵}⍥,⍨/∘⌽¨,\d  ⍝ BURNINATE
 
-k←(Q D S M M P)I'''"-?:'⍳∊1∘↑¨c
-t←(T_NSP T_STR T_STR T_SEQ T_MAP)I(P Q D S M)⍳k
+d k t a i c s e m/⍨←⊂1+m←'- '∘≡¨2∘↑¨c
+d+←¯1⌽m←1 1⍷m ⋄ (m/k)←S ⋄ (m/t)←T_SEQ ⋄ (m/c)←⊂'' ⋄ (m/e)←m/s
+(m/c)←2∘↓¨c/⍨m←¯1⌽m ⋄ (m/s)+←2
+
+(m/k)←(Q D M M P)I'''"?:'⍳∊1∘↑¨c/⍨m←0=k
+(m/t)←(T_NSP T_STR T_STR T_MAP)I(P Q D M)⍳m/k
 
 s[j]+←-e[j]+←¯1⊣j←⍸(k=Q)∨(k=D) ⋄ c[j]←(¯1↓1↓⊢)¨c[j]
-s[j]+←2⊣j←⍸(k=S)∨(k=M) ⋄ c[j]←2∘↓¨c[j]
 
 c[⍸m]←{⍵/⍨~'\"'⍷⍵}¨c/⍨m←k=D
 

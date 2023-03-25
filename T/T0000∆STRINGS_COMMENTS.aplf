@@ -23,4 +23,7 @@ T0000∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
 'Escaped double quote in QQ string' WITH '"mains \"power\""'
   d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂'mains "power"') 1 (¯1+≢IN)
 
+'Sequence node' WITH '- ',str←'druids in the forest'
+  d k t a i c s e⍪←(0 1)(Y.S Y.P)(Y.T_SEQ Y.T_NSP)(0 0)(0 0)('' str)(0 2)(0(≢IN))
+
 SUITE_END⍬
