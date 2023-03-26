@@ -1,5 +1,6 @@
 T0000∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
  ⍝ ast meta←(d k t a i c s e) (tt ii v h p)
+LF←⎕UCS 10
 
 'Empty document' WITH ''
 
@@ -25,5 +26,9 @@ T0000∆STRINGS_COMMENTS;DESC;IN;TEST;TRAP;d;k;t;a;i;c;s;e;tt;ii;v;h;p
 
 'Sequence node' WITH '- ',str←'druids in the forest'
   d k t a i c s e⍪←(0 1)(Y.S Y.P)(Y.T_SEQ Y.T_NSP)(0 0)(0 0)('' str)(0 2)(0(≢IN))
+
+'Multi-node sequence' WITH ∊('- ',LF,⍨⊢)¨stra strb←'multimillion acres' 'dry koolaid'
+  d k t a i⍪←(0 1 1)(Y.S Y.P Y.P)(Y.T_SEQ Y.T_NSP Y.T_NSP)(0 0 0)(0 0 0)
+  c s e⍪←('' stra strb)(0,∊(⍸⍷∘IN)¨stra strb)(0,1+∊⍸∘⌽⍤⍷⍥⌽∘IN¨stra strb)
 
 SUITE_END⍬
