@@ -1,11 +1,11 @@
 :Namespace GLOBALS
 ##.⎕IO←0
-##.(P Q D S M)←1+⍳5
+##.(P Q D S M K V)←1+⍳7
 ##.FLDS←⊂'depth' 'kind' 'tag' 'alias' 'key' 'content' 'start' 'end'
 ##.FLDS,←⊂'tag∆sym' 'key∆sym' 'version' 'tag∆hndl' 'tag∆pfx'
 ##.∆TAG_HNDLS←'!' '!!'
 _ prefix←##.∆TAG_PFXS←(' '∘≠⊆⊢)'! tag:yaml.org,2002:'
 ##.CORE_TAGS←(⊂,'?'),(⊂,'!'),prefix∘,¨'str' 'seq' 'map' 'null' 'bool' 'int' 'float'
 ##.(T_NSP T_STR T_SEQ T_MAP T_NULL T_BOOL T_INT T_FLOAT)←1+⍳8
-##.(MTAST←(⍬ ⍬ ⍬ ⍬ ⍬ (0⍴⊂'') ⍬ ⍬) (CORE_TAGS (0⍴⊂'') (,⊂'1.2') ∆TAG_HNDLS ∆TAG_PFXS))
+##.(MTAST←(⍬ ⍬ ⍬ ⍬ ⍬ (0⍴⊂'') ⍬ ⍬) (CORE_TAGS (,⊂'') (,⊂'1.2') ∆TAG_HNDLS ∆TAG_PFXS))
 :EndNamespace

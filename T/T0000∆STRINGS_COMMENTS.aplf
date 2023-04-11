@@ -13,22 +13,26 @@ LF←⎕UCS 10
   EXEC←{_←Y.PS IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
 
 'Singleton single-quoted string' WITH '''magnificent oil'''
-  d k t a i c s e⍪←0 Y.Q Y.T_STR 0 0 (⊂IN~'''') 1 (¯1+≢IN)
+  d k t a i c s e⍪←0 Y.Q Y.T_STR 0 0 (⊂IN~'''')0(≢IN)
 
 'Singleton double-quoted string' WITH '"abilene"'
-  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂IN~'"') 1 (¯1+≢IN)
+  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂IN~'"')0(≢IN)
 
 'Quoted string with padding' WITH '   "',str,'"  '⊣str←'trees are sentient'
-  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂str) 4 (4+≢str)
+  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂str)0(≢IN)
 
 'Escaped double quote in QQ string' WITH '"mains \"power\""'
-  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂'mains "power"') 1 (¯1+≢IN)
+  d k t a i c s e⍪←0 Y.D Y.T_STR 0 0 (⊂'mains "power"')0(≢IN)
 
 'Sequence node' WITH '- ',str←'druids in the forest'
-  d k t a i c s e⍪←(0 1)(Y.S Y.P)(Y.T_SEQ Y.T_NSP)(0 0)(0 0)('' str)(0 2)(0(≢IN))
+  d k t a i c s e⍪←(0 1)(Y.S Y.P)(Y.T_SEQ Y.T_NSP)(0 0)(0 0)('' str)(0 0)(2⍴≢IN)
 
 'Multi-node sequence' WITH ∊('- ',LF,⍨⊢)¨stra strb←'multimillion acres' 'dry koolaid'
   d k t a i⍪←(0 1 1)(Y.S Y.P Y.P)(Y.T_SEQ Y.T_NSP Y.T_NSP)(0 0 0)(0 0 0)
-  c s e⍪←('' stra strb)(0,∊(⍸⍷∘IN)¨stra strb)(0,1+∊⍸∘⌽⍤⍷⍥⌽∘IN¨stra strb)
+  c s e⍪←('' stra strb)(0,⍸¯1⌽m)((⊃∘⌽,⊢)⍸m←LF=IN)
+
+'Explicit-key map' WITH ∊,∘LF¨('? "','"',⍨key←'cute bunny')(': ',val←'Angkor Wat')
+  d k t a i c s e⍪←(0 1)(Y.M Y.P)(Y.T_MAP Y.T_NSP)(0 0)(0 1)('' val)(0 0)(2⍴¯1+≢IN)
+  ii⍪←,⊂key
 
 SUITE_END⍬

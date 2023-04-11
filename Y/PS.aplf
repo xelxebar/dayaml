@@ -34,19 +34,26 @@ c_indicator←'-?:,[]{}#&*!|>''"%@`'
 s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN ⋄ c←¯1∘↓¨m⊂IN
 d k t a i←⊂0⍴⍨≢⊃c s e←(s≠e)∘/¨c s e
 
-c←(⍴c)⍴↓⌿c⍪⍨⍥{⍵⍴⍨1⌈⍴⍵}m←1 ¯1∘.{rf←¯1≡⍺ ⋄ ⍺×1⍳⍨⊖⍣rf⊢' '≠⍵}c ⋄ d←⊃s e+←↓m
+c↓⍨¨←d←+/∘(∧\' '=⊢)¨c
 d←¯1+≢∘∊¨{∪⍺[⍳⊃1+⍺⍸⍵],⍵}⍥,⍨/∘⌽¨,\d  ⍝ BURNINATE
 
-d k t a i c s e m\⍨←⊂1+2</0,m←('- '≡2↑⊢)¨c
-m←2∧/0,m ⋄ d c s(⊣@(⍸m)⍨)←(1+m/d)(2↓¨m/c)(2+m/s)
-m←2</0,⍨m ⋄ k t c e(⊣@(⍸m)⍨)←S T_SEQ(⊂'')(m/s)
+g←S K V 0I'- ' '? ' ': '⍳2↑¨c
+c(⊣@(⍸m)⍨)←2↓¨c/⍨m←g≠0
 
-(m/k)←(Q D M M P)I'''"?:'⍳∊1∘↑¨c/⍨m←0=k
-(m/t)←(T_NSP T_STR T_STR T_MAP)I(P Q D M)⍳m/k
+c/⍨¨←(∨\∧⌽∘(∨\)∘⌽)∘(~⍤∊∘' 'HT)¨c
 
-s[j]+←-e[j]+←¯1⊣j←⍸(k=Q)∨(k=D) ⋄ c[j]←(¯1↓1↓⊢)¨c[j]
-
+(m/k)←(Q D P)I'''"'⍳∊1∘↑¨c/⍨m←0=k
+(m/t)←(T_NSP T_STR T_STR)I(P Q D)⍳m/k
+c[j]←(¯1↓1↓⊢)¨c[j←⍸k∊Q D]
 c[⍸m]←{⍵/⍨~'\"'⍷⍵}¨c/⍨m←k=D
+
+i[⍸g=V]←ii⍳ii∪←c[⍸g=K] ⋄ s[⍸g=V]←s[⍸g=K]
+d k g t a i c s e/⍨←⊂g≠K
+
+d k g t a i c s e m\⍨←⊂1+2</0,m←g∊S K V
+m←d+←2∧/0,m ⋄ n←2</0,m
+k t(⊣@(¯1+⍸n)⍨)←(n/S M M 0I⊢S K V⍳g)(n/T_SEQ T_MAP T_MAP 0I⊢S K V⍳g)
+a i c s e(⊣@(¯1+⍸n)⍨)←0 0(⊂'')(s/⍨n)(e/⍨2>/0,⍨m)
 
 (d k t a i c s e) (tt ii v h p)}
 
