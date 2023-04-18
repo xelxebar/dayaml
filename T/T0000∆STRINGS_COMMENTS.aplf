@@ -35,4 +35,8 @@ LF←⎕UCS 10
   d k t a i c s e⍪←(0 1)(Y.M Y.P)(Y.T_MAP Y.T_NSP)(0 0)(0 1)('' val)(0 0)(2⍴¯1+≢IN)
   ii⍪←,⊂key
 
+'Multi-value explicit-key map' WITH ∊LF,⍨'?:?:',' ',↑(keya←'mip')(vala←'rip')(keyb←'lip')(valb←'zip')
+  d k t a i⍪←Y.((0 1 1)(M P P)(T_MAP T_NSP T_NSP)(0 0 0)(0 1 2))
+  c s e ii⍪←('' vala valb)(0,⍸'?'=IN)((¯1+≢IN),⍸1⌽'?'=IN)(keya keyb)
+
 SUITE_END⍬
