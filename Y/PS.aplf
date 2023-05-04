@@ -15,7 +15,7 @@ s←0,(⍸¯1=+⍀⍣¯1⊢1,⍨IN∊LF) ⋄ e←(¯1↓1⌽s),≢IN ⋄ INN←(
 nos⍀⍨←1 0⍴⍨2×≢nos←'[',(⍕⍪lines),⍤1⊢'] '
 msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨e[lines]-beg←s[lines]
 msg←¯1↓∊LF,⍨nos,⍪,msg,' ‾'∘I¨∊∘⍵¨idx
-dmx←('EN' EN)('EM' EM)('Message'(EM,LF,msg))
+dmx←('EN' EN)('EM' EM)('Message'(LF,msg))
 dmx,←('Category' 'Parser')('Vendor' 'dayaml')
 ⎕SIGNAL⊂dmx}
 
@@ -29,42 +29,31 @@ e_val    ,←⎕UCS X '20' '22' '2F' '5C' '85' 'A0' '2028' '2029'
 c_indicator←'-?:,[]{}#&*!|>''"%@`'
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
-(d k t a i c s e) (tt ii v h p)←MTAST
+(d k t a q c b e) (tt qq v h x)←MTAST
+m←¯1⌽LF=IN ⋄ in←1+(1⍳⍨' '≠⊢)¨ln←¯1↓¨m⊂IN
+d,←¯1+≢¨⊃{a←,⊃⌽⍺ ⋄ ⍺,⊂∪a[⍳1+a⍸⍵],⍵}⍨/⊖in
+k t a q,←⊂(≢d)⍴0 ⋄ c,←ln ⋄ b e,←(⍸m)(⍸1⌽m)
 
-s e←0 1∘.(⍸⍤⌽)⊂m←¯1⌽LF=IN ⋄ c←¯1∘↓¨m⊂IN
-d k t a i←⊂0⍴⍨≢⊃c s e←(s≠e)∘/¨c s e
-
-c↓⍨¨←d←+/∘(∧\' '=⊢)¨c
-d←¯1+≢∘∊¨{∪⍺[⍳⊃1+⍺⍸⍵],⍵}⍥,⍨/∘⌽¨,\d  ⍝ BURNINATE
-
-g←S K V 0I'- ' '? ' ': '⍳2↑¨c
-c(⊣@(⍸m)⍨)←2↓¨c/⍨m←g≠0
+⍝ g←S K V 0I'- ' '? ' ': '⍳2↑¨c
+⍝ c(⊣@(⍸m)⍨)←2↓¨c/⍨m←g≠0
 
 c/⍨¨←(∨\∧⌽∘(∨\)∘⌽)∘(~⍤∊∘' 'HT)¨c
 
 (m/k)←(Q D P)I'''"'⍳∊1∘↑¨c/⍨m←0=k
 (m/t)←(T_NSP T_STR T_STR)I(P Q D)⍳m/k
-c[j]←(¯1↓1↓⊢)¨c[j←⍸k∊Q D]
+c[i]←(¯1↓1↓⊢)¨c[i←⍸k∊Q D]
 c[⍸m]←{⍵/⍨~'\"'⍷⍵}¨c/⍨m←k=D
 
-i[⍸g=V]←ii⍳ii∪←c[⍸g=K] ⋄ s[⍸g=V]←s[⍸g=K]
-d k g t a i c s e/⍨←⊂g≠K
+⍝ ∨/m←(d[i]≠(2⊣/¯1,d)[i])∨K≠(2⊣/0,g)[i←⍸g=V]: 11 'MAP VALUE MISSING KEY' SIGNAL⊃s[m/i]
+⍝ ∨/m←(d[i]≠(2⊢/d,¯1)[i])∨V≠(2⊢/g,0)[i←⍸g=K]: 11 'MAP KEY MISSING VALUE' SIGNAL⊃s[m/i]
+⍝ q[⍸g=V]←qq⍳qq∪←c[⍸g=K] ⋄ b[⍸g=V]←b[⍸g=K]
+⍝ d k g t a q c b e/⍨←⊂g≠K
 
-d k g t a i c s e m\⍨←⊂1+2</0,m←g∊S K V
-m←d+←2∧/0,m ⋄ n←2</0,m
-k t(⊣@(¯1+⍸n)⍨)←(n/S M M 0I⊢S K V⍳g)(n/T_SEQ T_MAP T_MAP 0I⊢S K V⍳g)
-a i c s e(⊣@(¯1+⍸n)⍨)←0 0(⊂'')(s/⍨n)(e/⍨2>/0,⍨m)
+⍝ d k g t a q c b e mc\⍨←⊂1+2</0,mc←g∊S K V ⋄ mp←2</0,mc ⋄ mc←2∧/0,mc
+⍝ d[⍸mc]←(⍸mp)/⍨(1+(2>/0,⍨⊢)-⍥⍸2</0,⊢)mc
+⍝ k t(⊣@(⍸mp)⍨)←(mp/S M M 0I⊢S K V⍳g)(mp/T_SEQ T_MAP T_MAP 0I⊢S K V⍳g)
+⍝ a q c b e(⊣@(⍸mp)⍨)←0 0(⊂'')(b/⍨mp)(e/⍨2>/0,⍨mc)
 
-(d k t a i c s e) (tt ii v h p)}
+d k t a q c b e/⍨←~⊂(b=e)∧k∊0 P
 
-⍝ d - Depth
-⍝ k - Kind
-⍝ t - Tag, tt - Tag symbols
-⍝ a - Alias, aa - Alias symbols
-⍝ i - Index, ii - Index symbols
-⍝ c - Content
-⍝ s - Start
-⍝ e - End
-⍝ v - YAML Version
-⍝ h - TAG Handles
-⍝ p - TAG Prefixes
+(d k t a q c b e) (tt qq v h x)}

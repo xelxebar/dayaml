@@ -1,7 +1,7 @@
 :Namespace UTILS
 
 ##.Y←##.##.Y
-##.((d k t a i c s e) (tt ii v h p))←##.Y.MTAST
+##.((p s k t a q c b e) (tt qq v h x))←##.Y.MTAST
 
 DISPLAY←{⎕IO ⎕ML←0                    ⍝ Boxed display of array.
  ⍺←1 ⋄ chars←⍺⊃'..''''|-' '┌┐└┘│─'    ⍝ ⍺: 0-clunky, 1-smooth.
@@ -45,10 +45,10 @@ CHK∆MATCH←{⍺←Y.MTAST ⋄ exp act←⍺ ⍵
 ##.∆TRAP←∆TRAP
 
 ∆EXEC←{
- (d k t a i c s e) (tt ii v h p) CHK∆MATCH Y.PS IN}
+ (d k t a q c b e) (tt qq v h x) CHK∆MATCH Y.PS IN}
 ##.∆EXEC←∆EXEC
 
-_INIT_TEST←{⎕THIS.((d k t a i c s e) (tt ii v h p))←Y.MTAST
+_INIT_TEST←{⎕THIS.((d k t a q c b e) (tt qq v h x))←Y.MTAST
  ⎕THIS.TRAP←∆TRAP ⋄ ⎕THIS.EXEC←∆EXEC}
 ##._INIT_TEST←_INIT_TEST
 
