@@ -8,9 +8,7 @@ LF←⎕UCS 10
   d k t a q c b e⍪←0 Y.P Y.T_NSP 0 0 (⊂IN) 0 (≢IN)
 
 'Invalid char' WITH 'roger',⎕UCS 0
-  TRAP←{msg←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
-   R⊣TAP.DIAG ('Unexpected message: ',msg)/⍨~R←⎕DMX.EM≡msg}
-  EXEC←{_←Y.PS IN ⋄ 0⊣TAP.DIAG 'Missed invalid character'}
+  EN←11 ⋄ EM←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
 
 'Singleton single-quoted string' WITH '''magnificent oil'''
   d k t a q c b e⍪←0 Y.Q Y.T_STR 0 0 (⊂IN~'''')0(≢IN)

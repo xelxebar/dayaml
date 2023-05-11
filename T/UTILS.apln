@@ -40,16 +40,18 @@ CHK∆MATCH←{⍺←Y.MTAST ⋄ exp act←⍺ ⍵
  }{0∊⍴⍵: _←⍵ ⋄ ⍺⍺¨⍵}⍸↑⍣≡r←exp≢¨¨act ⋄ ∧/∊~r}
 ##.CHK∆MATCH←CHK∆MATCH
 
-∆TRAP←{
- _←TAP.DIAG∘⍕¨⎕DMX.(DM) ⋄ 0}
+∆TRAP←{∧/0=⎕NC'EM' 'EN': 0⊣TAP.DIAG∘⍕¨⎕DMX.DM
+ ~r⊣TAP.DIAG(⍕'Unexpected error:'⎕DMX.(EN EM))/⍨r←(EN≢⎕DMX.EN)∨EM≢⎕DMX.EM}
 ##.∆TRAP←∆TRAP
 
-∆EXEC←{
- (d k t a q c b e) (tt qq v h x) CHK∆MATCH Y.PS IN}
+∆EXEC←{r←(d k t a q c b e) (tt qq v h x) CHK∆MATCH Y.PS IN
+ ∨/0≠⎕NC'EN' 'EM': TAP.DIAG 'Unexpected success'
+ r}
 ##.∆EXEC←∆EXEC
 
 _INIT_TEST←{⎕THIS.((d k t a q c b e) (tt qq v h x))←Y.MTAST
- ⎕THIS.TRAP←∆TRAP ⋄ ⎕THIS.EXEC←∆EXEC}
+ ⎕THIS.TRAP←∆TRAP ⋄ ⎕THIS.EXEC←∆EXEC
+ ⎕THIS.⎕EX'EN' 'EM'}
 ##._INIT_TEST←_INIT_TEST
 
 _EXEC_TEST←{
