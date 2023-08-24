@@ -1,7 +1,7 @@
 :Namespace UTILS
 
 ##.Y←##.##.Y
-##.((p s k t a q c b e) (tt qq v h x))←##.Y.MTAST
+##.((d k t a q c b e) (tt qq v h x))←##.Y.MTAST
 
 DISPLAY←{⎕IO ⎕ML←0                    ⍝ Boxed display of array.
  ⍺←1 ⋄ chars←⍺⊃'..''''|-' '┌┐└┘│─'    ⍝ ⍺: 0-clunky, 1-smooth.

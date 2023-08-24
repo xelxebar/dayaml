@@ -4,5 +4,6 @@ RC←{
  _←⎕CY 'ALE'
  PS GL∘←'Y/PS.aplf' 'Y/GLOBALS.apln'
  TT UT TAP∘←'T/T0000∆STRINGS_COMMENTS.aplf' 'T/UTILS.apln' 'T/TAP.apln'
- ⎕FX'∇XT' 'T.T0000∆STRINGS_COMMENTS' '∇'
+ ∆tap∘←'T.T0000∆STRINGS_COMMENTS'
+ ⎕FX'∇tap' '⍎∆tap' '∇'
 }

@@ -30,8 +30,8 @@ c_indicator←'-?:,[]{}#&*!|>''"%@`'
 ∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
 
 (d k t a q c b e) (tt qq v h x)←MTAST
-m←¯1⌽LF=IN ⋄ in←1+(1⍳⍨' '≠⊢)¨ln←¯1↓¨m⊂IN
-d,←¯1+≢¨⊃{a←,⊃⌽⍺ ⋄ ⍺,⊂∪a[⍳1+a⍸⍵],⍵}⍨/⊖in
+
+m←¯1⌽LF=IN ⋄ d←1+(1⍳⍨' '≠⊢)¨ln←¯1↓¨m⊂IN
 k t a q,←⊂(≢d)⍴0 ⋄ c,←ln ⋄ b e,←(⍸m)(⍸1⌽m)
 
 ⍝ g←S K V 0I'- ' '? ' ': '⍳2↑¨c
@@ -41,8 +41,11 @@ c/⍨¨←(∨\∧⌽∘(∨\)∘⌽)∘(~⍤∊∘' 'HT)¨c
 
 (m/k)←(Q D P)I'''"'⍳∊1∘↑¨c/⍨m←0=k
 (m/t)←(T_NSP T_STR T_STR)I(P Q D)⍳m/k
+
 c[i]←(¯1↓1↓⊢)¨c[i←⍸k∊Q D]
 c[⍸m]←{⍵/⍨~'\"'⍷⍵}¨c/⍨m←k=D
+
+d←¯1+≢¨⊃{a←,⊃⌽⍺ ⋄ ⍺,⊂∪a[⍳1+a⍸⍵],⍵}⍨/⊖d
 
 ⍝ ∨/m←(d[i]≠(2⊣/¯1,d)[i])∨K≠(2⊣/0,g)[i←⍸g=V]: 11 'MAP VALUE MISSING KEY' SIGNAL⊃s[m/i]
 ⍝ ∨/m←(d[i]≠(2⊢/d,¯1)[i])∨V≠(2⊢/g,0)[i←⍸g=K]: 11 'MAP KEY MISSING VALUE' SIGNAL⊃s[m/i]
