@@ -73,8 +73,9 @@ d k t a q c b e/⍨←~⊂(b=e)∧k∊0 P
 
 (d k t a q c) (tt qq v h x)}
 
-∇TEST;TAP;d;k;t;a;q;c;tt;qq;v;h;x
+∇TEST;TAP;d;k;t;a;q;c;tt;qq;v;h;x;_
  TAP←{⍺←⊢ ⋄ 0∊⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',4↓(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
+ ERRS←{⍺←⊢ ⋄ 0::⎕EN ⋄ 0⊣⍺ ⍺⍺ ⍵}
 
 ⍝ Empty document
  (d k t a q c) (tt qq v h x)←PS ''
@@ -95,21 +96,36 @@ d k t a q c b e/⍨←~⊂(b=e)∧k∊0 P
  TAP t=T_NSP
  TAP c≡,⊂'agent moss'
 
- 'Invalid char' WITH 'roger',⎕UCS 0
-   EN←11 ⋄ EM←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
+⍝ Invalid character in stream
+ TAP 11=PS ERRS 'roger',⎕UCS 0
 
- 'Singleton single-quoted string' WITH '''magnificent oil'''
-   d k t a q c b e⍪←0 Y.Q Y.T_STR 0 0 (⊂IN~'''')0(≢IN)
+⍝ Singleton single-quoted string
+ (d k t _ _ c)_←PS '''magnificent oil'''
+ TAP d=0
+ TAP k=Q
+ TAP t=T_STR
+ TAP c≡,⊂'magnificent oil'
 
- 'Singleton double-quoted string' WITH '"abilene"'
-   d k t a q c b e⍪←0 Y.D Y.T_STR 0 0 (⊂IN~'"')0(≢IN)
+⍝ Singleton double-quote string
+ (d k t _ _ c)_←PS '"abilene"'
+ TAP d=0
+ TAP k=D
+ TAP t=T_STR
+ TAP c≡,⊂'abilene'
 
- 'Quoted string with padding' WITH '   "',str,'"  '⊣str←'trees are sentient'
-   d k t a q c b e⍪←0 Y.D Y.T_STR 0 0 (⊂str)0(≢IN)
+⍝ Quoted string with padding
+ (d k t _ _ c)_←PS '   "trees are sentient"  '
+ TAP d=0
+ TAP k=D
+ TAP t=T_STR
+ TAP c≡,⊂'trees are sentient'
 
- 'Escaped double quote in QQ string' WITH '"mains \"power\""'
-   d k t a q c b e⍪←0 Y.D Y.T_STR 0 0 (⊂'mains "power"')0(≢IN)
-
+⍝ Escaped double quote in QQ string
+ (d k t _ _ c)_←PS '"mains \"power\""'
+ TAP d=0
+ TAP k=D
+ TAP t=T_STR
+ TAP c≡,⊂'mains "power"'
  ⍝ 'Sequence node' WITH '- ',str←'druids in the forest'
  ⍝   d k t a q c b e⍪←(0 1)(Y.S Y.P)(Y.T_SEQ Y.T_NSP)(0 0)(0 0)('' str)(0 0)(2⍴≢IN)
 
