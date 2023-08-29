@@ -1,9 +1,0 @@
-RC←{
- dirs←'Y' 'T'
- _←{⎕←⎕SE.UCMD'Link.Create ',⍵,' ',⍵,' -source=dir -watch=both'}¨dirs
- _←⎕CY 'ALE'
- PS GL∘←'Y/PS.aplf' 'Y/GLOBALS.apln'
- TT UT TAP∘←'T/T0000∆STRINGS_COMMENTS.aplf' 'T/UTILS.apln' 'T/TAP.apln'
- ∆tap∘←'T.T0000∆STRINGS_COMMENTS'
- ⎕FX'∇tap' '⍎∆tap' '∇'
-}
