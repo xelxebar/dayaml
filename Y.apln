@@ -88,8 +88,12 @@ d k t a q c b e/⍨←~⊂(b=e)∧k∊0 P
  TAP h≡∆TAG_HNDLS
  TAP x≡∆TAG_PFXS
 
- 'Single line plain string' WITH 'agent moss'
-   d k t a q c b e⍪←0 Y.P Y.T_NSP 0 0 (⊂IN) 0 (≢IN)
+⍝ Single line plain string
+ (d k t _ _ c)_←PS 'agent moss'
+ TAP d=0
+ TAP k=P
+ TAP t=T_NSP
+ TAP c≡,⊂'agent moss'
 
  'Invalid char' WITH 'roger',⎕UCS 0
    EN←11 ⋄ EM←'INVALID CHARACTER AT POSITION(S) ',⍕¯1+≢IN
