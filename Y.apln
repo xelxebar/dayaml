@@ -1,145 +1,32 @@
 :Namespace Y
+⎕IO←0  ⍝ ⎕IO delenda est
+I←⌷⍨∘⊂
 
-⎕IO←0
-P Q D S M K V←1+⍳7
-FLDS←⊂'depth' 'kind' 'tag' 'alias' 'key' 'content' 'start' 'end'
-FLDS,←⊂'tag∆sym' 'key∆sym' 'version' 'tag∆hndl' 'tag∆pfx'
-∆TAG_HNDLS←'!' '!!'
-_ prefix←∆TAG_PFXS←(' '∘≠⊆⊢)'! tag:yaml.org,2002:'
-CORE_TAGS←(⊂,'?'),(⊂,'!'),prefix∘,¨'str' 'seq' 'map' 'null' 'bool' 'int' 'float'
-T_NSP T_STR T_SEQ T_MAP T_NULL T_BOOL T_INT T_FLOAT←1+⍳8
-MTAST←(⍬⍬⍬⍬⍬(0⍴⊂'')⍬⍬)(CORE_TAGS(,⊂'')(,⊂'1.2')∆TAG_HNDLS ∆TAG_PFXS)
+PS←{
+ d k t a q←⊂⍬ ⋄ c←0⍴⊂''
+ tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
+ qq←,⊂''
+ ver←1 2
+ hnd←(,'!')'!!'
+ pfx←(,'!')'tag:yaml.org,2002:'
 
- PS←{IN←⍵
-I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ ⍺ ⍵⍵⍣¯1⍤⍺⍺⍥⍵⍵ ⍵} ⋄ R←{⍺⍺⍨/U⌽¨,\⍵}
-X←16∘⊥∘((⎕D,'ABCDEF')∘⍳)¨
-assert←{⍺←'assertion failure' ⋄ 0∊⍵:⍎'⍺ ⎕SIGNAL 8' ⋄ _←0}
+ (d k t a q c)(tt qq ver hnd pfx)}
 
-1<≢⍴IN:'PARSER EXPECTS VECTOR INPUT'⎕SIGNAL 11
-1<|≡IN:'PARSER EXPECTS SIMPLE VECTOR INPUT'⎕SIGNAL 11
-0≠10|⎕DR IN:'PARSER EXPECTS CHARACTER VECTOR'⎕SIGNAL 11
-
-HT LF CR←⎕UCS 09 10 13
-IN,←LF/⍨LF≠¯1↑IN←LF@(=∘CR)IN/⍨ ~CR LF⍷IN
-
-s←0,(⍸¯1=+⍀⍣¯1⊢1,⍨IN∊LF) ⋄ e←(¯1↓1⌽s),≢IN ⋄ INN←(LF∘≠⊆⊢)IN
- SIGNAL←{⍺←11 'PARSER ERROR' ⋄ EN EM∘←⍺ ⋄ lines←∪s⍸⍵
-nos⍀⍨←1 0⍴⍨2×≢nos←'[',(⍕⍪lines),⍤1⊢'] '
-msg←⍪~∘LF¨IN∘I¨idx←beg+⍳¨e[lines]-beg←s[lines]
-msg←¯1↓∊LF,⍨nos,⍪,msg,' ‾'∘I¨∊∘⍵¨idx
-dmx←('EN' EN)('EM' EM)('Message'(LF,msg))
-dmx,←('Category' 'Parser')('Vendor' 'dayaml')
-⎕SIGNAL⊂dmx}
-
-c_printable←X¨('20' '7E') ('A0' 'D7FF') ('E000' 'FFFD') ('010000' '10FFFF')
-c_printable←⎕UCS∊(X'09' '0A' '0D' '85'),{⍺+⍳1+⍵-⍺}/¨c_printable
-s_char←CR LF,HT ' ',X 'FEFF'
-c_escapes ←∊       '0'  'a'  'b'  't'   HT  'n'  'v'  'f'  'r'  'e'
-e_val     ←⎕UCS X '00' '07' '08' '09' '09' '0A' '0B' '0C' '0D' '1B'
-c_escapes,←∊       ' '  '"'  '/'  '\'  'N'  '_'    'L'    'P'  'x'  'u'  'U'
-e_val    ,←⎕UCS X '20' '22' '2F' '5C' '85' 'A0' '2028' '2029'
-c_indicator←'-?:,[]{}#&*!|>''"%@`'
-∨/m←~IN∊c_printable:11 ('INVALID CHARACTER AT POSITION(S) ',⍕n)SIGNAL⊢n←⍸m
-
-(d k t a q c b e) (tt qq v h x)←(⍬⍬⍬⍬⍬(0⍴⊂'')⍬⍬)(CORE_TAGS(,⊂'')(,⊂'1.2')∆TAG_HNDLS ∆TAG_PFXS)
-
-m←¯1⌽LF=IN ⋄ d←1+(1⍳⍨' '≠⊢)¨ln←¯1↓¨m⊂IN
-k t a q,←⊂(≢d)⍴0 ⋄ c,←ln ⋄ b e,←(⍸m)(⍸1⌽m)
-
-⍝ g←S K V 0I'- ' '? ' ': '⍳2↑¨c
-⍝ c(⊣@(⍸m)⍨)←2↓¨c/⍨m←g≠0
-
-c/⍨¨←(∨\∧⌽∘(∨\)∘⌽)∘(~⍤∊∘' 'HT)¨c
-
-(m/k)←(Q D P)I'''"'⍳∊1∘↑¨c/⍨m←0=k
-(m/t)←(T_NSP T_STR T_STR)I(P Q D)⍳m/k
-
-c[i]←(¯1↓1↓⊢)¨c[i←⍸k∊Q D]
-c[⍸m]←{⍵/⍨~'\"'⍷⍵}¨c/⍨m←k=D
-
-d←¯1+≢¨⊃{a←,⊃⌽⍺ ⋄ ⍺,⊂∪a[⍳1+a⍸⍵],⍵}⍨/⊖d
-
-⍝ ∨/m←(d[i]≠(2⊣/¯1,d)[i])∨K≠(2⊣/0,g)[i←⍸g=V]: 11 'MAP VALUE MISSING KEY' SIGNAL⊃s[m/i]
-⍝ ∨/m←(d[i]≠(2⊢/d,¯1)[i])∨V≠(2⊢/g,0)[i←⍸g=K]: 11 'MAP KEY MISSING VALUE' SIGNAL⊃s[m/i]
-⍝ q[⍸g=V]←qq⍳qq∪←c[⍸g=K] ⋄ b[⍸g=V]←b[⍸g=K]
-⍝ d k g t a q c b e/⍨←⊂g≠K
-
-⍝ d k g t a q c b e mc\⍨←⊂1+2</0,mc←g∊S K V ⋄ mp←2</0,mc ⋄ mc←2∧/0,mc
-⍝ d[⍸mc]←(⍸mp)/⍨(1+(2>/0,⍨⊢)-⍥⍸2</0,⊢)mc
-⍝ k t(⊣@(⍸mp)⍨)←(mp/S M M 0I⊢S K V⍳g)(mp/T_SEQ T_MAP T_MAP 0I⊢S K V⍳g)
-⍝ a q c b e(⊣@(⍸mp)⍨)←0 0(⊂'')(b/⍨mp)(e/⍨2>/0,⍨mc)
-
-d k t a q c b e/⍨←~⊂(b=e)∧k∊0 P
-
-(d k t a q c) (tt qq v h x)}
-
-∇TEST;TAP;d;k;t;a;q;c;tt;qq;v;h;x;_
- TAP←{⍺←⊢ ⋄ 0∊⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',4↓(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
+∇{z}←TEST;TAP;ERRS
+ z←0  ⍝ Profiling with cmpx requires result
+ TAP←{⍺←⊢ ⋄ 0∊⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
  ERRS←{⍺←⊢ ⋄ 0::⎕EN ⋄ 0⊣⍺ ⍺⍺ ⍵}
 
-⍝ Empty document
- (d k t a q c) (tt qq v h x)←PS ''
+⍝ Empty input
+ (d k t a q c)(tt qq ver hnd pfx)←PS ''
  TAP 0=≢¨d k t a q c
  TAP 1=≢∘⍴¨d k t a q c
  TAP 0=⊃¨d k t a q
- TAP ''≡⊃c
- TAP tt≡CORE_TAGS
+ TAP c≡0⍴⊂''
+ TAP tt≡'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
  TAP qq≡,⊂''
- TAP v≡,⊂'1.2'
- TAP h≡∆TAG_HNDLS
- TAP x≡∆TAG_PFXS
-
-⍝ Single line plain string
- (d k t _ _ c)_←PS 'agent moss'
- TAP d=0
- TAP k=P
- TAP t=T_NSP
- TAP c≡,⊂'agent moss'
-
-⍝ Invalid character in stream
- TAP 11=PS ERRS 'roger',⎕UCS 0
-
-⍝ Singleton single-quoted string
- (d k t _ _ c)_←PS '''magnificent oil'''
- TAP d=0
- TAP k=Q
- TAP t=T_STR
- TAP c≡,⊂'magnificent oil'
-
-⍝ Singleton double-quote string
- (d k t _ _ c)_←PS '"abilene"'
- TAP d=0
- TAP k=D
- TAP t=T_STR
- TAP c≡,⊂'abilene'
-
-⍝ Quoted string with padding
- (d k t _ _ c)_←PS '   "trees are sentient"  '
- TAP d=0
- TAP k=D
- TAP t=T_STR
- TAP c≡,⊂'trees are sentient'
-
-⍝ Escaped double quote in QQ string
- (d k t _ _ c)_←PS '"mains \"power\""'
- TAP d=0
- TAP k=D
- TAP t=T_STR
- TAP c≡,⊂'mains "power"'
- ⍝ 'Sequence node' WITH '- ',str←'druids in the forest'
- ⍝   d k t a q c b e⍪←(0 1)(Y.S Y.P)(Y.T_SEQ Y.T_NSP)(0 0)(0 0)('' str)(0 0)(2⍴≢IN)
-
- ⍝ 'Multi-node sequence' WITH ∊('- ',LF,⍨⊢)¨stra strb←'multimillion acres' 'dry koolaid'
- ⍝   d k t a q⍪←(0 1 1)(Y.S Y.P Y.P)(Y.T_SEQ Y.T_NSP Y.T_NSP)(0 0 0)(0 0 0)
- ⍝   c b e⍪←('' stra strb)(0,⍸¯1⌽m)((⊃∘⌽,⊢)⍸m←LF=IN)
-
- ⍝ 'Explicit-key map' WITH ∊,∘LF¨('? "','"',⍨key←'cute bunny')(': ',val←'Angkor Wat')
- ⍝   d k t a q c b e⍪←(0 1)(Y.M Y.P)(Y.T_MAP Y.T_NSP)(0 0)(0 1)('' val)(0 0)(2⍴¯1+≢IN)
- ⍝   qq⍪←,⊂key
-
- ⍝ 'Multi-value explicit-key map' WITH ∊LF,⍨'?:?:',' ',↑(keya←'mip')(vala←'rip')(keyb←'lip')(valb←'zip')
- ⍝   d k t a q⍪←Y.((0 1 1)(M P P)(T_MAP T_NSP T_NSP)(0 0 0)(0 1 2))
- ⍝   c b e qq⍪←('' vala valb)(0,⍸'?'=IN)((¯1+≢IN),⍸1⌽'?'=IN)(keya keyb)
+ TAP ver≡1 2
+ TAP hnd≡(,'!')'!!'
+ TAP pfx≡(,'!')'tag:yaml.org,2002:'
 ∇
-
 :EndNamespace
