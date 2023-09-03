@@ -3,6 +3,10 @@
 I←⌷⍨∘⊂
 
 PS←{
+ 1<≢⍴⍵: 'PARSER EXPECTS VECTOR INPUT'            ⎕SIGNAL 11
+ 2<|≡⍵: 'PARSER EXPECTS DEPTH OF CHARS OR LINES' ⎕SIGNAL 11
+ ∨/0≠10|⎕DR¨⊆⍵: 'PARSER EXPECTS CHAR INPUT'      ⎕SIGNAL 11
+
  d k t a q←⊂⍬ ⋄ c←0⍴⊂''
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
  qq←,⊂''
@@ -28,5 +32,10 @@ PS←{
  TAP ver≡1 2
  TAP hnd≡(,'!')'!!'
  TAP pfx≡(,'!')'tag:yaml.org,2002:'
+
+⍝ Invalid input
+ TAP 11=PS ERRS ↑'fire' 'flies' 'at' 'dusk'
+ TAP 11=PS ERRS ⍳5
+ TAP 11=PS ERRS 'dally' 10 'monday'
 ∇
 :EndNamespace
