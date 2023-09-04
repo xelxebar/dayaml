@@ -2,12 +2,22 @@
 ⎕IO←0  ⍝ ⎕IO delenda est
 I←⌷⍨∘⊂
 
+HT LF CR←⎕UCS 9 10 13
+M S K←1+⍳3
+TM TS TK←1+⍳3
+
 PS←{
  1<≢⍴⍵: 'PARSER EXPECTS VECTOR INPUT'            ⎕SIGNAL 11
  2<|≡⍵: 'PARSER EXPECTS DEPTH OF CHARS OR LINES' ⎕SIGNAL 11
  ∨/0≠10|⎕DR¨⊆⍵: 'PARSER EXPECTS CHAR INPUT'      ⎕SIGNAL 11
 
- d k t a q←⊂⍬ ⋄ c←0⍴⊂''
+ c←¯1↓¨(¯1⌽LF=z)⊂z←∊LF,⍨⍪⊆⍵
+ k t←(≢c)∘⍴¨K TK
+
+ d a q←⊂(≢c)⍴0
+
+ d k t a q c/⍨←⊂(⊂'')≢¨c
+
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
  qq←,⊂''
  ver←1 2
@@ -37,5 +47,12 @@ PS←{
  TAP 11=PS ERRS ↑'fire' 'flies' 'at' 'dusk'
  TAP 11=PS ERRS ⍳5
  TAP 11=PS ERRS 'dally' 10 'monday'
+
+⍝ Plain scalar singleton
+ (d k t _ _ c)_←PS 'beware the drool'
+ TAP d=0
+ TAP k=K
+ TAP t=TK
+ TAP c≡,⊂'beware the drool'
 ∇
 :EndNamespace
