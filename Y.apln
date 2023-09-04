@@ -12,7 +12,10 @@ PS←{
  ∨/0≠10|⎕DR¨⊆⍵: 'PARSER EXPECTS CHAR INPUT'      ⎕SIGNAL 11
 
  c←¯1↓¨(¯1⌽LF=z)⊂z←∊LF,⍨⍪⊆⍵
+
  k t←(≢c)∘⍴¨K TK
+
+ c←(1↓⊢)∘{⍵↑⍨1⍳⍨('#'=⍵)∧¯1⌽' '=⍵}∘(' ',⊢)¨c
 
  d a q←⊂(≢c)⍴0
 
@@ -54,5 +57,9 @@ PS←{
  TAP k=K
  TAP t=TK
  TAP c≡,⊂'beware the drool'
+
+⍝ One-line comment singleton
+ (d _ _ _ _ _)_←PS '# asparagus goodies'
+ TAP d≡⍬
 ∇
 :EndNamespace
