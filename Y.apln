@@ -29,12 +29,12 @@ PS←{
 
  (d k t a q c)(tt qq ver hnd pfx)}
 
-∇{z}←TEST;TAP;ERRS
+∇{z}←TEST;TAP;ERRS;d;k;t;a;q;c;tt;qq;ver;hnd;pfx
  z←0  ⍝ Profiling with cmpx requires result
- TAP←{⍺←⊢ ⋄ 0∊⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
+ TAP←{⍺←⊢ ⋄ 0∊⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',4↓(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
  ERRS←{⍺←⊢ ⋄ 0::⎕EN ⋄ 0⊣⍺ ⍺⍺ ⍵}
 
-⍝ Empty input
+⎕←'# Empty input'
  (d k t a q c)(tt qq ver hnd pfx)←PS ''
  TAP 0=≢¨d k t a q c
  TAP 1=≢∘⍴¨d k t a q c
@@ -46,19 +46,19 @@ PS←{
  TAP hnd≡(,'!')'!!'
  TAP pfx≡(,'!')'tag:yaml.org,2002:'
 
-⍝ Invalid input
+⎕←'# Invalid input'
  TAP 11=PS ERRS ↑'fire' 'flies' 'at' 'dusk'
  TAP 11=PS ERRS ⍳5
  TAP 11=PS ERRS 'dally' 10 'monday'
 
-⍝ Plain scalar singleton
+⎕←'# Plain scalar singleton'
  (d k t _ _ c)_←PS 'beware the drool'
  TAP d=0
  TAP k=K
  TAP t=TK
  TAP c≡,⊂'beware the drool'
 
-⍝ One-line comment singleton
+⎕←'# One-line comment singleton'
  (d _ _ _ _ _)_←PS '# asparagus goodies'
  TAP d≡⍬
 ∇
