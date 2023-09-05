@@ -13,11 +13,12 @@ PS←{
 
  c←¯1↓¨(¯1⌽LF=z)⊂z←∊LF,⍨⍪⊆⍵
 
- k t←(≢c)∘⍴¨K TK
-
  c←(1↓⊢)∘{⍵↑⍨1⍳⍨('#'=⍵)∧¯1⌽' '=⍵}∘(' ',⊢)¨c
 
- d a q←⊂(≢c)⍴0
+ c←{⍵↓⍨1⍳⍨~⍵∊' 'HT}¨c
+ c←⌽∘{⍵↓⍨1⍳⍨~⍵∊' 'HT}∘⌽¨c
+
+ d a q←⊂(≢c)⍴0 ⋄ k t←(≢c)∘⍴¨K TK
 
  d k t a q c/⍨←⊂(⊂'')≢¨c
 
@@ -61,5 +62,13 @@ PS←{
 ⎕←'# One-line comment singleton'
  (d _ _ _ _ _)_←PS '# asparagus goodies'
  TAP d≡⍬
+
+⎕←'# Plain scalar with whitespace padding'
+ (_ _ _ _ _ c)_←PS '   drosophilia melancholia     '
+ TAP c≡,⊂'drosophilia melancholia'
+
+⎕←'# Inline comment'
+ (_ _ _ _ _ c)_←PS'monkey business # for profit'
+ TAP c≡,⊂'monkey business'
 ∇
 :EndNamespace
