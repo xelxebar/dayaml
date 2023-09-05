@@ -100,5 +100,13 @@ PS←{
  TAP k=K
  TAP t=TK
  TAP c≡,⊂''
+
+⎕←'# Empty lines'
+ (d _ _ _ _ _)_←PS '- APL' '' '- ???' '' '- PROFIT'
+ TAP 3=≢d
+
+⎕←'# Comment lines'
+ (d _ _ _ _ _)_←PS 'meyers-briggs:' '  # types' '  - intj' '  - infp'
+ TAP 3=≢d
 ∇
 :EndNamespace
