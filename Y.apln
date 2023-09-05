@@ -18,6 +18,9 @@ PS←{
  c←{⍵↓⍨1⍳⍨~⍵∊' 'HT}¨c
  c←⌽∘{⍵↓⍨1⍳⍨~⍵∊' 'HT}∘⌽¨c
 
+ m←∊(c≡¨⊂'''''')∨(1∘↑∧¯1∘↑)∘(2↓⊢)∘(⊢>0,2⊣/⊢)∘(0 0,⊢)∘(''''=⊢)¨c
+ (m/c)←(1↓¯1↓⊢)¨m/c
+
  d a q←⊂(≢c)⍴0 ⋄ k t←(≢c)∘⍴¨K TK
 
  d k t a q c/⍨←⊂(⊂'')≢¨c
@@ -70,5 +73,17 @@ PS←{
 ⎕←'# Inline comment'
  (_ _ _ _ _ c)_←PS'monkey business # for profit'
  TAP c≡,⊂'monkey business'
+
+⎕←'# Single-quoted string'
+ (_ k t _ _ c)_←PS '''fiona barrusta'''
+ TAP k=K
+ TAP t=TK
+ TAP c≡,⊂'fiona barrusta'
+
+⎕←'# Single-quoted empty scalar'
+ (_ k t _ _ c)_←PS ''''''
+ TAP k=K
+ TAP t=TK
+ TAP c=,⊂''
 ∇
 :EndNamespace
