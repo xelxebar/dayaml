@@ -18,12 +18,15 @@ PS←{
  c←{⍵↓⍨1⍳⍨~⍵∊' 'HT}¨c
  c←⌽∘{⍵↓⍨1⍳⍨~⍵∊' 'HT}∘⌽¨c
 
+ c/⍨←(⊂'')≢¨c
+
  m←∊(c≡¨⊂'''''')∨(1∘↑∧¯1∘↑)∘(2↓⊢)∘(⊢>0,2⊣/⊢)∘(0 0,⊢)∘(''''=⊢)¨c
  (m/c)←(1↓¯1↓⊢)¨m/c
 
- d a q←⊂(≢c)⍴0 ⋄ k t←(≢c)∘⍴¨K TK
+ m←∊(1∘↑∧¯1∘↑)∘('"'=⊢)¨c
+ (m/c)←(1↓¯1↓⊢)¨m/c
 
- d k t a q c/⍨←⊂(⊂'')≢¨c
+ d a q←⊂(≢c)⍴0 ⋄ k t←(≢c)∘⍴¨K TK
 
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
  qq←,⊂''
@@ -85,5 +88,17 @@ PS←{
  TAP k=K
  TAP t=TK
  TAP c=,⊂''
+
+⎕←'# Double-quoted scalar'
+ (_ k t _ _ c)_←PS '"dreamers in droves"'
+ TAP k=K
+ TAP t=TK
+ TAP c≡,⊂'dreamers in droves'
+
+⎕←'# Double-quoted empty scalar'
+ (_ k t _ _ c)_←PS '""'
+ TAP k=K
+ TAP t=TK
+ TAP c≡,⊂''
 ∇
 :EndNamespace
