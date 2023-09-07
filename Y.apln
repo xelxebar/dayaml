@@ -1,9 +1,10 @@
 :Namespace Y
 ⎕IO←0  ⍝ ⎕IO delenda est
-I←⌷⍨∘⊂
+I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ 1≡⍺ 1:⍵⍵⍣¯1 ⍺⍺ ⍵⍵ ⍵ ⋄ ⍵⍵⍣¯1 ⍺ ⍺⍺⍥⍵⍵ ⍵}
 
 HT LF CR←⎕UCS 9 10 13
-M S K←1+⍳3
+WS←' ' HT
+_ M S K QL←⍳5
 TM TS TK←1+⍳3
 
 PS←{
@@ -13,18 +14,36 @@ PS←{
 
  c←¯1↓¨(¯1⌽LF=z)⊂z←∊LF,⍨⍪⊆⍵
 
- c←(1↓⊢)∘{⍵↑⍨1⍳⍨('#'=⍵)∧¯1⌽' '=⍵}∘(' ',⊢)¨c
+ c←{1↓x⌿⍨~∨⍀' #'⍷x←' ',⍵}¨c
 
- c←{⍵↓⍨1⍳⍨~⍵∊' 'HT}¨c
- c←⌽∘{⍵↓⍨1⍳⍨~⍵∊' 'HT}∘⌽¨c
+⍝ Capture indentation
 
- c/⍨←(⊂'')≢¨c
+ c←{⍵⌿⍨(∧⍀⍱∧⍀U⌽)⍵∊WS}¨c
+
+ k←(≢c)⍴0
+
+⍝ Seq 
+
+ k[⍸(⊃¨c)∊'"''']←QL
+
+⍝ CompKey
+⍝ KeyPair
+
+ k[⍸∨⌿¨c≠' ']←K
+
+⍝ Identify globbable types
+
+ c k⌿⍨←⊂k≠0
 
  m←∊(1∘↑=¯1∘↑∧2≠1↑⊢)∘('''"'⍳⊢)¨c
  (m/c)←(1↓¯1↓⊢)¨m/c
 
- d a q←⊂(≢c)⍴0 ⋄ k t←(≢c)∘⍴¨K TK
+ k[⍸k=QL]←K
 
+ d←(≢c)⍴0
+ a←(≢c)⍴0
+ q←(≢c)⍴0
+ t←(≢c)⍴TK
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
  qq←,⊂''
  ver←1 2
@@ -106,4 +125,5 @@ PS←{
  (d _ _ _ _ _)_←PS 'meyers-briggs:' '  # types' '  - intj' '  - infp'
  TAP 3=≢d
 ∇
+
 :EndNamespace
