@@ -22,7 +22,7 @@ PS←{
 
  k←(≢c)⍴0
 
-⍝ Seq 
+ k[⍸'- '∘≡¨2↑¨c]←S ⋄ c←2↓@{k=S}c
 
  k[⍸(⊃¨c)∊'"''']←QL
 
@@ -118,11 +118,11 @@ PS←{
 
 ⎕←'# Empty lines'
  (d _ _ _ _ _)_←PS '- APL' '' '- ???' '' '- PROFIT'
- TAP 3=≢d
+ TAP 4=≢d
 
 ⎕←'# Comment lines'
  (d _ _ _ _ _)_←PS 'meyers-briggs:' '  # types' '  - intj' '  - infp'
- TAP 3=≢d
+ TAP 4=≢d
 
 ⎕←'# Padded double quoted literal'
  (_ _ _ _ _ c)_←PS '   "this is a test"    '
