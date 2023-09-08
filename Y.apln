@@ -26,6 +26,8 @@ PS←{
 
  k[⍸(⊃¨c)∊'"''']←QL
 
+ c←(1↓¯1↓⊢)¨@{k=QL}c
+
 ⍝ CompKey
 ⍝ KeyPair
 
@@ -34,9 +36,6 @@ PS←{
 ⍝ Identify globbable types
 
  c k⌿⍨←⊂k≠0
-
- m←∊(1∘↑=¯1∘↑∧2≠1↑⊢)∘('''"'⍳⊢)¨c
- (m/c)←(1↓¯1↓⊢)¨m/c
 
  k[⍸k=QL]←K
 
@@ -124,6 +123,10 @@ PS←{
 ⎕←'# Comment lines'
  (d _ _ _ _ _)_←PS 'meyers-briggs:' '  # types' '  - intj' '  - infp'
  TAP 3=≢d
+
+⎕←'# Padded double quoted literal'
+ (_ _ _ _ _ c)_←PS '   "this is a test"    '
+ TAP c≡,⊂'this is a test'
 ∇
 
 :EndNamespace
