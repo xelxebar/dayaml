@@ -22,20 +22,22 @@ PS←{
 
  k←(≢c)⍴0
 
- k[⍸'- '∘≡¨2↑¨c]←S ⋄ c←2↓@{k=S}c
+ k[⍸'- '∘≡¨2↑¨c]←S ⋄ c←2↓¨@{k=S}c
 
- k[⍸(⊃¨c)∊'"''']←QL
+ k[⍸(k=0)∧(⊃¨c)∊'"''']←QL
 
  c←(1↓¯1↓⊢)¨@{k=QL}c
 
 ⍝ CompKey
 ⍝ KeyPair
 
- k[⍸∨⌿¨c≠' ']←K
+ k[⍸(k=0)∧∨⌿¨c≠' ']←K
 
 ⍝ Identify globbable types
 
  c k⌿⍨←⊂k≠0
+
+ c k⍀⍨←⊂sc←1+kh←2<⌿0⍪km←k=S ⋄ k[i←km⌿si←¯1++⍀sc]←K ⋄ c[¯1+kh⌿si]←⊂''
 
  k[⍸k=QL]←K
 
@@ -115,6 +117,12 @@ PS←{
  TAP k=K
  TAP t=TK
  TAP c≡,⊂''
+
+⎕←'# Sequence wrapping'
+ (_ k _ _ _ c)_←PS '- APL' '- ???' '- PROFIT'
+ TAP 4=≢k
+ TAP k≡S K K K
+ TAP c≡'' 'APL' '???' 'PROFIT'
 
 ⎕←'# Empty lines'
  (d _ _ _ _ _)_←PS '- APL' '' '- ???' '' '- PROFIT'
