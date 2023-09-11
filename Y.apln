@@ -28,25 +28,26 @@ PS←{
 
  c←(1↓¯1↓⊢)¨@{k=QL}c
 
-⍝ CompKey
-⍝ KeyPair
+ k[i←⍸(k=0)∧∨⌿¨msk←': '∘⍷¨c]←M ⋄ q←(≢c)⍴⊂''
+ q c(⊣@i⍨)←2↑↓⍉↑msk[i]{(⍺⍱¯1⌽⍺)⊆⍵}¨c[i]
 
  k[⍸(k=0)∧∨⌿¨c≠' ']←K
 
 ⍝ Identify globbable types
 
- c k⌿⍨←⊂k≠0
+ k q c⌿⍨←⊂k≠0
 
- c k⍀⍨←⊂sc←1+kh←2<⌿0⍪km←k=S ⋄ k[i←km⌿si←¯1++⍀sc]←K ⋄ c[¯1+kh⌿si]←⊂''
+ k q c⍀⍨←⊂sc←1+kh←2<⌿0⍪km←k∊S M
+ k[i←km⌿si←¯1++⍀sc]←K ⋄ q[j←¯1+kh⌿si]←⊂'' ⋄ c[j]←⊂''
 
  k[⍸k=QL]←K
 
+ q⍳⍨←qq←∪(⊂''),q
+
  d←(≢c)⍴0
  a←(≢c)⍴0
- q←(≢c)⍴0
  t←(≢c)⍴TK
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
- qq←,⊂''
  ver←1 2
  hnd←(,'!')'!!'
  pfx←(,'!')'tag:yaml.org,2002:'
@@ -135,6 +136,17 @@ PS←{
 ⎕←'# Padded double quoted literal'
  (_ _ _ _ _ c)_←PS '   "this is a test"    '
  TAP c≡,⊂'this is a test'
+
+⎕←'# Simple maps'
+ (_ k _ _ q c)(_ qq _ _ _)←PS 'abc: 123' 'norse: gods' 'emily: bronte'
+ TAP 4=≢k
+ TAP c≡'' '123' 'gods' 'bronte'
+ TAP q≡0 1 2 3
+ TAP qq≡'' 'abc' 'norse' 'emily'
+
+⎕←'# Simple maps with empty lines'
+ (_ _ _ _ _ c)_←PS 'abc: 123' '' 'norse: gods' '' '      ' 'emily: bronte' ' ' ''
+ TAP c≡'' '123' 'gods' 'bronte'
 ∇
 
 :EndNamespace
