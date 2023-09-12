@@ -5,6 +5,7 @@ I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ 1≡⍺ 1:⍵⍵⍣¯1 ⍺⍺ ⍵⍵
 HT LF CR←⎕UCS 9 10 13
 WS←' ' HT
 _ M S K QL←⍳5
+∆K←' MSKQ'
 TM TS TK←1+⍳3
 
 PS←{
@@ -16,35 +17,33 @@ PS←{
 
  c←{1↓x⌿⍨~∨⍀' #'⍷x←' ',⍵}¨c
 
-⍝ Capture indentation
+ d←+⌿¨∧⍀¨' '=c
 
- c←{⍵⌿⍨(∧⍀⍱∧⍀U⌽)⍵∊WS}¨c
+ c←{⍵⌿⍨~∧⍀⍵=' '}¨c
 
  k←(≢c)⍴0
 
- k[⍸'- '∘≡¨2↑¨c]←S ⋄ c←2↓¨@{k=S}c
+ k[⍸∨⌿¨('-'=c)∧(1↓⍪∘1)¨' '=c]←S ⋄ c←2↓¨@{k=S}c
 
  k[⍸(k=0)∧(⊃¨c)∊'"''']←QL
 
- c←(1↓¯1↓⊢)¨@{k=QL}c
-
- k[i←⍸(k=0)∧∨⌿¨msk←': '∘⍷¨c]←M ⋄ q←(≢c)⍴⊂''
+ k[i←⍸(k=0)∧∨⌿¨msk←(':'=c)∧(1↓⍪∘1)¨' '=c]←M ⋄ q←(≢c)⍴⊂''
  q c(⊣@i⍨)←2↑↓⍉↑msk[i]{(⍺⍱¯1⌽⍺)⊆⍵}¨c[i]
 
  k[⍸(k=0)∧∨⌿¨c≠' ']←K
 
 ⍝ Identify globbable types
 
- k q c⌿⍨←⊂k≠0
+ d k q c⌿⍨←⊂k≠0
 
- k q c⍀⍨←⊂sc←1+kh←2<⌿0⍪km←k∊S M
- k[i←km⌿si←¯1++⍀sc]←K ⋄ q[j←¯1+kh⌿si]←⊂'' ⋄ c[j]←⊂''
+ d k q c⍪⍨←(d+←S M∊⍨⊃k)↑¨d k⍪⊂¨'' ''
 
- k[⍸k=QL]←K
+ c←(1↓¯1↓⊢)¨@{k=QL}{⍵⌿⍨~∧⍀U⌽⍵=' '}¨c
+
+ k[⍸(k=QL)∨(d≥1⌽d)∧k∊S M]←K
 
  q⍳⍨←qq←∪(⊂''),q
 
- d←(≢c)⍴0
  a←(≢c)⍴0
  t←(≢c)⍴TK
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
@@ -147,6 +146,12 @@ PS←{
 ⎕←'# Simple maps with empty lines'
  (_ _ _ _ _ c)_←PS 'abc: 123' '' 'norse: gods' '' '      ' 'emily: bronte' ' ' ''
  TAP c≡'' '123' 'gods' 'bronte'
+
+⎕←'# Sequence of sequences'
+ (d k _ _ _ c)_←PS '-' ' - dresser' ' - drawers' '- buzz lightyear'
+ TAP k=S S K K K
+ TAP c≡'' '' 'dresser' 'drawers' 'buzz lightyear'
+ TAP d=0 1 2 2 1
 ∇
 
 :EndNamespace
