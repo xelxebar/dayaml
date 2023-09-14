@@ -32,7 +32,7 @@ PS←{
 
  k[⍸(k=0)∧∨⌿¨c≠' ']←K
 
-⍝ Identify globbable types
+ d k q/⍨←⊂msk←¯1↓2∧/1 1,k≠K ⋄ c←⊃¨(⊣,' ',⊢)/∘⊆¨msk⊂c
 
  d k q c⌿⍨←⊂k≠0
 
@@ -152,6 +152,11 @@ PS←{
  TAP k=S S K K K
  TAP c≡'' '' 'dresser' 'drawers' 'buzz lightyear'
  TAP d=0 1 2 2 1
+
+⎕←'# Two-line plain scalar'
+ (_ k _ _ _ c)_←PS 'irridium' 'satellite constellation'
+ TAP k=K
+ TAP c≡,⊂'irridium satellite constellation'
 ∇
 
 :EndNamespace
