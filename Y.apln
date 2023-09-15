@@ -30,9 +30,9 @@ PS←{
  k[i←⍸(k=0)∧∨⌿¨msk←(':'=c)∧(1↓⍪∘1)¨' '=c]←M ⋄ q←(≢c)⍴⊂''
  q c(⊣@i⍨)←2↑↓⍉↑msk[i]{(⍺⍱¯1⌽⍺)⊆⍵}¨c[i]
 
- k[⍸(k=0)∧∨⌿¨c≠' ']←K
-
- d k q/⍨←⊂msk←¯1↓2∧/1 1,k≠K ⋄ c←⊃¨(⊣,' ',⊢)/∘⊆¨msk⊂c
+ k[⍸km←(∨⍀∧∨⍀U⌽)nbm←(k=0)∧∨⌿¨c≠' ']←K
+ c[⍸km∧~nbm]←LF ⋄ c[⍸nbm∧1⌽nbm],←' '
+ c[⍸2<⌿0⍪k=K]←∊¨(k=K)⊆c ⋄ k[⍸2∧⌿0⍪k=K]←0
 
  d k q c⌿⍨←⊂k≠0
 
@@ -157,6 +157,11 @@ PS←{
  (_ k _ _ _ c)_←PS 'irridium' 'satellite constellation'
  TAP k=K
  TAP c≡,⊂'irridium satellite constellation'
+
+⎕←'# Multi-line plain scalar'
+ (_ k _ _ _ c)_←PS 'Truman' '' 'The lemonade was good.' 'We went outside.'
+ TAP k=K
+ TAP c≡,⊂'Truman',(⎕UCS 10),'The lemonade was good. We went outside.'
 ∇
 
 :EndNamespace
