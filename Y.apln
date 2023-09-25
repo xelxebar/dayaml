@@ -2,49 +2,53 @@
 ⎕IO←0  ⍝ ⎕IO delenda est
 I←{(⊂⍵)⌷⍺} ⋄ U←{⍺←⊢ ⋄ 1≡⍺ 1:⍵⍵⍣¯1 ⍺⍺ ⍵⍵ ⍵ ⋄ ⍵⍵⍣¯1 ⍺ ⍺⍺⍥⍵⍵ ⍵}
 
-HT LF CR←⎕UCS 9 10 13
-WS←' ' HT
+WS←' ',⊃HT LF CR←⎕UCS 9 10 13
 _ M S K Q←⍳5
 ∆K←' MSKQ'
 TM TS TK←1+⍳3
 
 PS←{
- 1<≢⍴⍵: 'PARSER EXPECTS VECTOR INPUT'            ⎕SIGNAL 11
- 2<|≡⍵: 'PARSER EXPECTS DEPTH OF CHARS OR LINES' ⎕SIGNAL 11
- ∨/0≠10|⎕DR¨⊆⍵: 'PARSER EXPECTS CHAR INPUT'      ⎕SIGNAL 11
+ 1<≢⍴⍵: 'PARSER EXPECTS VECTOR INPUT'             ⎕SIGNAL 11
+ 2<|≡⍵: 'PARSER EXPECTS VECTOR OF CHARS OR LINES' ⎕SIGNAL 11
+ ∨/0≠10|⎕DR¨⊆⍵: 'PARSER EXPECTS CHAR INPUT'       ⎕SIGNAL 11
 
- c←¯1↓¨(¯1⌽LF=z)⊂z←∊LF,⍨⍪⊆⍵
+ c←∊(⍪⊆⍵),LF
+ sm←(∊∧⍀¨m⊂⍨¯1⊖LF=c)∧(c∊'-?:')∧1⊖m←c∊' '⍪HT⍪LF
+ d←d-(⊂¯1++⍀x)⌷(x←¯1⊖c=LF)⌿d←+⍀sm⍪¯1⊖sm
 
- c←{1↓x⌿⍨∧⍀~' #'⍷x←' ',⍵}¨c
+ c←(¯1⊖c=LF)⊂c←∊(⍪⊆⍵)⍪LF
 
- d←{+⌿∧⍀⍵}¨' '=c ⋄ c←{⍵⌿⍨∨⍀⍵≠' '}¨c
+ m←{m∨(≢m)↑~∨⌿m←m∧∧⍀(⍵=' ')∨m←(⍵∊'-?:')∧1⊖⍵∊LF,' '}¨c
+ d←∊⍸¨m ⋄ c←⊃m,.⊂c
 
- k←(≢c)⍴0
+ c←{⍵⌿⍨∧⍀1↓¯1⊖~' #'⍷' ',⍵}¨c
 
- k[⍸(k=0)∧∨⌿¨('-'=c)∧(1↓⍪∘1)¨' '=c]←S ⋄ c←2↓¨@{k=S}c
+ d+←0≠k←S M M 0I'-?:'⍳⊃¨c
 
- k[⍸(k=0)∧(⊃¨c)∊'"''']←Q
+ m←{∨⍀<⍀(⍵=':')∧1⊖⍵∊LF,' '}¨c
+ k[⍸∨⌿¨m]←M ⋄ q c←(c⌿⍨¨~m)(m⌿¨c)
 
- k[i←⍸(k=0)∧∨⌿¨m←(':'=c)∧(1↓⍪∘1)¨' '=c]←M
- q←(≢c)⍴⊂'' ⋄ q c(⊣@i⍨)←2↑↓⍉↑m[i]{(⍺⍱¯1⌽⍺)⊆⍵}¨c[i]
+ k[⍸∧⌿¨c∊¨⊂LF,' ']←¯1
 
- k[⍸m←(∨⍀∧∨⍀U⌽)n←(k=0)∧∨⌿¨c≠' ']←K
- c[⍸m∧~n]←LF ⋄ c[⍸n∧1⌽n],←' '
- c[⍸2<⌿0⍪k=K]←∊¨(k=K)⊆c ⋄ k[⍸2∧⌿0⍪k=K]←0
+ d←∊⊣⍀¨d⊂⍨∧⌿~2</(k=¯1)∨⍤1⊢d[i←⍸~k∊S M]∘.≥d
 
- d k q c⌿⍨←⊂k≠0
+ d k c⌿⍨←⊂k≠¯1
 
- d k q c⍪⍨←(d+←S M∊⍨⊃k)↑¨d k⍪⊂¨'' ''
+ d k c⍪⍨←(d+←S M∊⍨⊃k)↑¨d k(⊂'')
 
- c←(1↓¯1↓⊢)¨@{k=Q}{⍵⌿⍨~∧⍀U⌽⍵=' '}¨c
+ c[⍸m]←1↓¨c⌿⍨m←k∊S M
 
- k[⍸(k=Q)∨(d≥1⌽d)∧k∊S M]←K
+ k[⍸d≥1⊖d]←K
 
- q⍳⍨←qq←∪(⊂''),q
+ c⌿⍨¨←(∨⍀∧∨⍀U⊖)¨~c∊¨⊂LF,' '
+ c←{(¯1↓1↓⊢)⍣('''"'∊⍨⊃⍵)⊢⍵}¨c
 
- a←(≢c)⍴0
- t←(≢c)⍴TK
+ t←TM TS TK 0I M S K⍳k
+ a←(≢d)⍴0
+ q←(≢d)⍴0
+
  tt←'tag:yaml.org,2002:'∘,¨'map' 'seq' 'str'
+ qq←,⊂''
  ver←1 2
  hnd←(,'!')'!!'
  pfx←(,'!')'tag:yaml.org,2002:'
@@ -53,7 +57,7 @@ PS←{
 
 ∇{z}←TEST;TAP;ERRS;d;k;t;a;q;c;tt;qq;ver;hnd;pfx
  z←0  ⍝ Profiling with cmpx requires result
- TAP←{⍺←⊢ ⋄ 0∊⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',4↓(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
+ TAP←{⍺←⊢ ⋄ (0∊⍵)∨0=≢⍵: ⍺ ⎕SIGNAL 8 ⋄ ⎕←'ok - ',4↓(⎕CR'#.Y.TEST')[1⊃⎕LC;] ⋄ _←0}
  ERRS←{⍺←⊢ ⋄ 0::⎕EN ⋄ 0⊣⍺ ⍺⍺ ⍵}
 
 ⎕←'# Empty input'
